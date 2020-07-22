@@ -42,7 +42,7 @@ function updateContentScrollHeight() {
 
 function updateFilenameBlock() {
   const path = window.location.pathname;
-  const filename = path.substring(path.lastIndexOf('/') + 1);
+  var filename = path.substring(path.lastIndexOf('/') + 1);
 
   if (filename === '')  {
     filename = 'index.html';
