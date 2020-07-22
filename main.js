@@ -52,13 +52,13 @@ function updateMode(mode) {
   currentMode = mode;
 
   if (mode === modes.normal) {
+    commandInput.disabled = true;
     commandInput.value = '';
     commandInput.blur();
+  } else {
+    commandInput.disabled = false;
+    commandInput.focus();
   }
-}
-
-function startCommandInput() {
-  commandInput.focus();
 }
 
 function executeCommand() {
@@ -87,9 +87,6 @@ function scrollContent(amount) {
 
 function commandModeKeybindings(key) {
   switch (key) {
-    case ':':
-      startCommandInput();
-      break;
     case 'Enter':
       commandInput.value !== '' && commandInput.value !== ':' && executeCommand();
       break;
@@ -111,7 +108,9 @@ window.addEventListener('keydown', (e) => {
   const key = e.key;
 
   if (key === 'Escape' || key === 'CapsLock') {
-    currentMode === modes.command ? updateMode(modes.normal) : updateMode(modes.command);
+    updateMode(modes.normal);
+  } else if (key === ':') {
+    updateMode(modes.command);
   } else {
     currentMode === modes.normal ? normalModeKeybindings(key) : commandModeKeybindings(key);
   }
