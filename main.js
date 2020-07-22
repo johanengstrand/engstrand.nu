@@ -5,25 +5,52 @@ const modes = {
   command: 'COMMAND',
 };
 
-var main = document.getElementById('content-wrapper');
-var content = document.getElementById('content');
-var gutter = document.getElementById('gutter');
-var scrollBlock = document.getElementById('scroll');
-var modeBlock = document.getElementById('mode');
-var commandInput = document.getElementById('command-input');
-var keyBlock = document.getElementById('keybinding-display');
-var fileBlock = document.getElementById('file');
+const tabbar = document.getElementById('tabbar');
+const main = document.getElementById('content-wrapper');
+const content = document.getElementById('content');
+const gutter = document.getElementById('gutter');
+const scrollBlock = document.getElementById('scroll');
+const modeBlock = document.getElementById('mode');
+const commandInput = document.getElementById('command-input');
+const keyBlock = document.getElementById('keybinding-display');
+const fileBlock = document.getElementById('file');
 
 var currentMode = modes.command;
+var keypresses = '';
 var currentTab = null;
 var previousTab = null;
-var keypresses = '';
+var selectedTabElement = null;
+var tabElements = [];
 
 function generateTabs() {
+  for (var i = 0; i < tabs.length; i++) {
+    const filename = tabs[i];
+    const element = document.createElement('a');
+    element.classList.add('tab');
+    element.href = filename;
+    element.innerText = (i+1) + ' ' + filename;
+    tabbar.appendChild(element);
+    tabElements.push(element);
+  }
+}
 
+function updateSelectedTab() {
+  const selectedTab = tabElements[currentTab-1];
+
+  if (!selectedTab) {
+    return;
+  }
+
+  if (selectedTabElement !== null) {
+    selectedTabElement.classList.remove('tab-active');
+  }
+
+  selectedTab.classList.add('tab-active');
+  selectedTabElement = selectedTab;
 }
 
 function openContentPage(path) {
+  // Fetches an html file and inserts the content into the page
   fetch('content/' + path)
     .then((response) => {
       return response.text();
@@ -45,7 +72,7 @@ function updateContentScrollHeight() {
   var remainder = main.scrollHeight % lineHeight;
 
   if (remainder !== 0) {
-    var element = document.createElement('div');
+    const element = document.createElement('div');
     element.style.height = (lineHeight - remainder) + 'px';
     gutter.appendChild(element);
   }
@@ -59,7 +86,7 @@ function generateLineNumbers() {
   var amount = Math.ceil(main.scrollHeight / lineHeight);
 
   for (var i = 1; i <= amount; i++) {
-    var element = document.createElement('div');
+    const element = document.createElement('div');
     element.innerText = i;
     element.classList.add('line-number');
     gutter.appendChild(element);
@@ -89,8 +116,9 @@ function waitForImagesToLoad() {
 }
 
 function initialize() {
-  openContentPage(tabs[0]);
+  generateTabs();
   updateMode(modes.normal);
+  goToTab(1);
 }
 
 function updateFilenameBlock() {
@@ -176,10 +204,12 @@ function goToTab(tab) {
     openContentPage(tabs[tab-1]);
   } else {
     console.error('Invalid tab id: ', tab);
+    return;
   }
 
   previousTab = currentTab === null ? tab : currentTab;
   currentTab = tab;
+  updateSelectedTab();
 }
 
 function commandModeKeybindings(key) {
