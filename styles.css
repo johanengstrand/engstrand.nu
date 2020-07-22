@@ -5,6 +5,7 @@
   --content-height: 90vh;
   --content-max-height: 800px;
   --gutter-width: 1.5em;
+  --scroll-block-width: 2.5em;
   --keybinding-display-width: 8em;
   --line-height: 20px;
   --font-size: 12px;
@@ -130,9 +131,9 @@ aside {
   z-index: var(--z-index-content);
 }
 
-.placeholder {
-  height: var(--line-height);
-  width: 100%;
+#scroll {
+  width: var(--scroll-block-width);
+  justify-content: center;
 }
 
 footer {

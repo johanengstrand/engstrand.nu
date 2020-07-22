@@ -10,8 +10,11 @@ var gutter = document.getElementById('gutter');
 var scrollBlock = document.getElementById('scroll');
 var modeBlock = document.getElementById('mode');
 var commandInput = document.getElementById('command-input');
+var keyBlock = document.getElementById('keybinding-display');
 var fileBlock = document.getElementById('file');
+
 var currentMode = modes.command;
+var keypresses = '';
 
 function generateLineNumbers() {
   var amount = Math.ceil(main.scrollHeight / lineHeight);
@@ -67,11 +70,35 @@ function executeCommand() {
   updateMode(modes.normal);
 }
 
-function scrollContent(amount) {
+function resetKeyBlock() {
+  keyBlock.innerText = '';
+  keypresses = '';
+}
+
+function scrollContentToTop() {
+  main.scrollTo(0, 0);
+}
+
+function scrollContentToBottom() {
+  main.scrollTo(0, main.scrollHeight);
+}
+
+function scrollContent(amount, repeats) {
   if (amount > 0) {
     var treshold = main.scrollTop + (main.clientHeight - (main.clientHeight % lineHeight) + lineHeight);
     if (treshold > main.scrollHeight) {
       // We only want to sroll even steps
+      return;
+    }
+  }
+
+  if (keypresses.length > 0) {
+    const repeatAmount = parseInt(keypresses);
+    if (!Object.is(repeatAmount, NaN)) {
+      amount *= repeatAmount;
+      resetKeyBlock();
+    } else {
+      // If we have previous keypresses that are not numbers, it is an invalid command.
       return;
     }
   }
@@ -85,6 +112,11 @@ function scrollContent(amount) {
   }
 }
 
+function updateKeyBlock(key) {
+  keypresses += key;
+  keyBlock.innerText = keypresses;
+}
+
 function commandModeKeybindings(key) {
   switch (key) {
     case 'Enter':
@@ -94,6 +126,18 @@ function commandModeKeybindings(key) {
 }
 
 function normalModeKeybindings(key) {
+  // Check if the key is a number and add it to the repeat count.
+  // This is used when we want to repeat a binding multiple times, e.g '10k'.
+  if (
+    !Object.is(parseInt(key), NaN) &&
+    (keypresses.length === 0 || !Object.is(parseInt(keypresses), NaN))
+  ) {
+    updateKeyBlock(key);
+    return;
+  }
+
+  var foundBinding = true;
+  var reset = true;
   switch (key) {
     case 'j':
       scrollContent(lineHeight);
@@ -101,6 +145,29 @@ function normalModeKeybindings(key) {
     case 'k':
       scrollContent(-lineHeight);
       break;
+    case 'g':
+      if (keypresses === 'g') {
+        scrollContentToTop();
+      } else {
+        updateKeyBlock(key);
+        reset = false;
+      }
+      break;
+    case 'G':
+      if (keypresses.length === 0) {
+        scrollContentToBottom();
+      }
+      break;
+    case 'Shift':
+      reset = false;
+      break;
+    default:
+      foundBinding = false;
+      break;
+  }
+
+  if (reset || !foundBinding) {
+    resetKeyBlock();
   }
 }
 
