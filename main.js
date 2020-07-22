@@ -57,6 +57,7 @@ function openContentPage(path) {
     })
     .then((html) => {
       content.innerHTML = html;
+      updateSelectedTab();
       updateFilenameBlock();
       generateLineNumbers(); // Generate temporary line numbers
       waitForImagesToLoad();
@@ -122,14 +123,7 @@ function initialize() {
 }
 
 function updateFilenameBlock() {
-  const path = window.location.pathname;
-  var filename = path.substring(path.lastIndexOf('/') + 1);
-
-  if (filename === '')  {
-    filename = 'index.html';
-  }
-
-  fileBlock.innerText = filename;
+  fileBlock.innerText = tabs[currentTab-1];
 }
 
 function updateMode(mode) {
@@ -201,15 +195,14 @@ function updateKeyBlock(key) {
 
 function goToTab(tab) {
   if (tab > 0 && tab <= tabs.length) {
+    // Update the global variables before opening the content page
+    // so that they can be used when the html has loaded.
+    previousTab = currentTab === null ? tab : currentTab;
+    currentTab = tab;
     openContentPage(tabs[tab-1]);
   } else {
     console.error('Invalid tab id: ', tab);
-    return;
   }
-
-  previousTab = currentTab === null ? tab : currentTab;
-  currentTab = tab;
-  updateSelectedTab();
 }
 
 function commandModeKeybindings(key) {
