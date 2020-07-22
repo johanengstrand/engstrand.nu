@@ -5,13 +5,17 @@
   --content-height: 90vh;
   --content-max-height: 800px;
   --gutter-width: 1.5em;
-  --gutter-top-offset: 3px;
   --line-height: 20px;
+  --font-size: 12px;
 
   --spacing-xsm: 0.35em;
   --spacing-sm: 0.7em;
   --spacing: 1em;
   --spacing-lg: 1.5em;
+
+  --z-index-content: 100;
+  --z-index-gutter: 90;
+  --z-index-line-highlight: 80;
 }
 
 body.default-theme {
@@ -28,7 +32,7 @@ body.default-theme {
 body {
   margin: 0;
   font-family: monospace;
-  font-size: 1em;
+  font-size: var(--font-size);
   background-image: url('wallpaper.jpg');
   background-size: cover;
 }
@@ -61,6 +65,7 @@ a {
 
 p, pre {
   line-height: var(--line-height);
+  font-size: var(--font-size);
   margin: 0;
 }
 
@@ -82,9 +87,10 @@ main {
   flex: 1;
   display: inline-flex;
   overflow-y: hidden;
-  padding: var(--spacing-xsm) var(--spacing-sm);
+  padding: 0 var(--spacing-sm);
   padding-bottom: 0;
   box-sizing: border-box;
+  position: relative;
 }
 
 aside {
@@ -92,16 +98,27 @@ aside {
   height: auto;
   background-color: transparent;
   display: block;
+  z-index: var(--z-index-gutter);
   overflow-y: hidden;
-  margin-top: var(--gutter-top-offset);
 }
 
 .line-number {
   color: var(--color-default-text);
   text-align: center;
-  height: var(--line-height);
   padding: 0;
   margin: 0;
+  font-size: var(--font-size);
+  line-height: var(--line-height);
+}
+
+#line-highlight {
+  position: absolute;
+  width: var(--content-width);
+  height: var(--line-height);
+  left: 0;
+  top: 0px;
+  background-color: red;
+  z-index: var(--z-index-line-highlight);
 }
 
 #content {
@@ -111,6 +128,8 @@ aside {
   color: var(--color-default-text);
   padding: 0 var(--spacing-sm);
   overflow-y: hidden;
+  font-size: var(--font-size);
+  z-index: var(--z-index-content);
 }
 
 footer {
