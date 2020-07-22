@@ -38,8 +38,13 @@ function updateContentScrollHeight() {
 }
 
 function updateFilenameBlock() {
-  const path = window.location.pathname
+  const path = window.location.pathname;
   const filename = path.substring(path.lastIndexOf('/') + 1);
+
+  if (filename === '')  {
+    filename = 'index.html';
+  }
+
   fileBlock.innerText = filename;
 }
 
@@ -166,6 +171,8 @@ function normalModeKeybindings(key) {
       break;
   }
 
+  // Reset the key-sequence if no binding was found for the pressed key
+  // or if we manually trigger a reset based on some logic.
   if (reset || !foundBinding) {
     resetKeyBlock();
   }
