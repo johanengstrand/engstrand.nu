@@ -1,11 +1,12 @@
 var lineHeight = 20;
 
-var content = document.getElementById('content');
+var main = document.getElementById('content-wrapper');
+// var content = document.getElementById('content');
 var gutter = document.getElementById('gutter');
 var scrollBlock = document.getElementById('scroll');
 
 function generateLineNumbers() {
-  var amount = Math.ceil(content.scrollHeight / lineHeight);
+  var amount = Math.ceil(main.scrollHeight / lineHeight);
 
   for (var i = 1; i <= amount; i++) {
     var element = document.createElement('div');
@@ -15,25 +16,36 @@ function generateLineNumbers() {
   }
 }
 
+function adjustContentScrollHeight() {
+  var remainder = main.scrollHeight % lineHeight;
+
+  if (remainder !== 0) {
+    var element = document.createElement('div');
+    element.style.height = remainder + 'px';
+    main.appendChild(element);
+  }
+}
+
 generateLineNumbers();
+adjustContentScrollHeight();
 
 function scrollContent(amount) {
-  if (
-    ((content.scrollTop + content.clientHeight + lineHeight + 3) >= content.scrollHeight ||
-    (gutter.scrollTop + content.clientHeight + lineHeight) >= content.scrollHeight) &&
-    amount > 0
-  ) {
-    // We only want to sroll even steps
-    return;
+  if (amount > 0) {
+    var treshold = main.scrollTop + (main.clientHeight - (main.clientHeight % lineHeight) + lineHeight);
+    if (treshold > main.scrollHeight) {
+      console.log(treshold);
+      console.log(main.scrollHeight);
+      // We only want to sroll even steps
+      return;
+    }
   }
 
-  content.scrollBy(0, amount);
-  gutter.scrollBy(0, amount);
+  main.scrollBy(0, amount);
 
-  if (content.scrollTop === 0) {
+  if (main.scrollTop === 0) {
     scrollBlock.innerText = '0%';
   } else {
-    scrollBlock.innerText = parseInt(content.scrollTop / (content.scrollHeight - content.clientHeight) * 100)+ '%';
+    scrollBlock.innerText = parseInt(main.scrollTop / (main.scrollHeight - main.clientHeight) * 100)+ '%';
   }
 }
 

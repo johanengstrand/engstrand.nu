@@ -25,6 +25,8 @@ body.default-theme {
   --color-background-light: #111111;
   --color-default-text: #ffffff;
   --color-accent-text: #ffffff;
+  --color-light-text: #aaaaaa;
+  --color-line-highlight: #1c1c1c;
   --color-border: #333;
   --color-window: rgba(0,0,0,0.94);
 }
@@ -99,11 +101,10 @@ aside {
   background-color: transparent;
   display: block;
   z-index: var(--z-index-gutter);
-  overflow-y: hidden;
 }
 
 .line-number {
-  color: var(--color-default-text);
+  color: var(--color-light-text);
   text-align: center;
   padding: 0;
   margin: 0;
@@ -117,7 +118,7 @@ aside {
   height: var(--line-height);
   left: 0;
   top: 0px;
-  background-color: red;
+  background-color: var(--color-line-highlight);
   z-index: var(--z-index-line-highlight);
 }
 
@@ -127,9 +128,13 @@ aside {
   height: auto;
   color: var(--color-default-text);
   padding: 0 var(--spacing-sm);
-  overflow-y: hidden;
   font-size: var(--font-size);
   z-index: var(--z-index-content);
+}
+
+.placeholder {
+  height: var(--line-height);
+  width: 100%;
 }
 
 footer {
