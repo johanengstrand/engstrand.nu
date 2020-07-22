@@ -15,20 +15,17 @@
 
   --z-index-content: 100;
   --z-index-gutter: 90;
-  --z-index-line-highlight: 80;
 }
 
 body.default-theme {
-  --color-primary: #2045e8;
-  --color-secondary: #9b20e8;
-  --color-background: #000000;
-  --color-background-light: #111111;
+  --color-primary: #fecfc7;
+  --color-secondary: #445d86;
+  --color-background-light: #2f3332;
   --color-default-text: #ffffff;
-  --color-accent-text: #ffffff;
+  --color-accent-text: #333;
   --color-light-text: #aaaaaa;
-  --color-line-highlight: #1c1c1c;
-  --color-border: #333;
-  --color-window: rgba(0,0,0,0.94);
+  --color-border: #f0d1ce;
+  --color-window: rgba(18, 18, 16, 0.91);
 }
 
 body {
@@ -62,7 +59,8 @@ body {
 
 a {
   text-decoration: none;
-  color: var(--color-accent-text);
+  color: var(--color-default-text);
+  font-size: var(--font-size);
 }
 
 p, pre {
@@ -81,7 +79,7 @@ p, pre {
 
 .tab-active {
   background-color: var(--color-primary);
-  color: var(--color-default-text);
+  color: var(--color-accent-text);
 }
 
 main {
@@ -112,19 +110,8 @@ aside {
   line-height: var(--line-height);
 }
 
-#line-highlight {
-  position: absolute;
-  width: var(--content-width);
-  height: var(--line-height);
-  left: 0;
-  top: 0px;
-  background-color: var(--color-line-highlight);
-  z-index: var(--z-index-line-highlight);
-}
-
 #content {
   flex: 1;
-  /* height: calc(var(--content-height) - (var(--bar-height)*4)); */
   height: auto;
   color: var(--color-default-text);
   padding: 0 var(--spacing-sm);
@@ -163,6 +150,18 @@ footer {
   color: var(--color-default-text);
 }
 
+input {
+	background-color: transparent;
+	border: none;
+	color: var(--color-default-text);
+	padding: 0;
+	margin: 0;
+	margin-left: var(--spacing-sm);
+	height: var(--bar-height);
+  font-size: var(--font-size);
+  font-family: monospace;
+}
+
 .expand {
   flex: 1;
 }
@@ -178,5 +177,5 @@ footer {
 
 .color-secondary {
   background-color: var(--color-secondary);
-  color: var(--color-accent-text);
+  color: var(--color-default-text);
 }
