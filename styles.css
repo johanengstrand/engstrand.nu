@@ -7,6 +7,7 @@
   --gutter-width: 1.5em;
   --scroll-block-width: 2.5em;
   --keybinding-display-width: 8em;
+  --list-marker-width: 3em;
   --line-height: 20px;
   --font-size: 12px;
 
@@ -26,6 +27,7 @@ body.default-theme {
   --color-default-text: #ffffff;
   --color-accent-text: #333;
   --color-light-text: #aaaaaa;
+  --color-secondary-text: #7493ff;
   --color-border: #f0d1ce;
   --color-window: rgba(18, 18, 16, 0.91);
 }
@@ -34,7 +36,7 @@ body {
   margin: 0;
   font-family: monospace;
   font-size: var(--font-size);
-  background-image: url('wallpaper.jpg');
+  background-image: url('img/wallpaper.jpg');
   background-size: cover;
 }
 
@@ -68,17 +70,53 @@ a {
   font-size: var(--font-size);
 }
 
-h1, h2, h3, h4 {
-  line-height: calc(var(--line-height) * 2);
+h1, h2, h3 {
+  line-height: var(--line-height);
   margin: 0;
-	padding-left: 0.6em;
-	background-color: rgba(0,0,0,0.4);
+  margin-top: var(--line-height);
 }
 
-p, pre {
+h1:first-of-type {
+  margin-top: 0;
+}
+
+h1::before, h2::before, h3::before {
+  content: '[#]';
+  color: var(--color-secondary-text);
+  margin-right: 0.3em;
+}
+
+h1 {
+  font-size: calc(var(--line-height)*0.8);
+  line-height: calc(var(--line-height));
+}
+
+h2 {
+  font-size: calc(var(--line-height)*0.7);
+}
+
+h3 {
+  font-size: calc(var(--line-height)*0.6);
+}
+
+ol, ul, li, p, pre {
   line-height: var(--line-height);
   font-size: var(--font-size);
   margin: 0;
+}
+
+ol, ul {
+  margin: var(--line-height) 0;
+  padding-left: calc(var(--line-height)*2);
+}
+
+li::marker {
+  color: var(--color-secondary-text);
+  width: var(--list-marker-width);
+}
+
+blockquote {
+  margin: var(--line-height);
 }
 
 .tab {
@@ -101,6 +139,7 @@ main {
   overflow-y: hidden;
   overflow-x: hidden;
   padding-left: var(--spacing-sm);
+  padding-top: calc(var(--line-height)/2);
   box-sizing: border-box;
   position: relative;
 }

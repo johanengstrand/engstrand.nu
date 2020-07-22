@@ -6,7 +6,7 @@ const modes = {
 };
 
 var main = document.getElementById('content-wrapper');
-// var content = document.getElementById('content');
+var content = document.getElementById('content');
 var gutter = document.getElementById('gutter');
 var scrollBlock = document.getElementById('scroll');
 var modeBlock = document.getElementById('mode');
@@ -19,7 +19,52 @@ var currentTab = null;
 var previousTab = null;
 var keypresses = '';
 
+function generateTabs() {
+
+}
+
+function openContentPage(path) {
+  fetch('content/' + path)
+    .then((response) => {
+      return response.text();
+    })
+    .then((html) => {
+      content.innerHTML = html;
+      updateFilenameBlock();
+      generateLineNumbers(); // Generate temporary line numbers
+      waitForImagesToLoad();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+function waitForImagesToLoad() {
+  // Attaches an event-listener to each image in the loaded html file and
+  // generates the line numbers when they have all loaded.
+  const images = content.querySelectorAll('img');
+  var listeners = [];
+
+  // Create a list of promises
+  for (const image of images) {
+    listeners.push(new Promise((resolve, _) => {
+      image.addEventListener('load', () => {
+        resolve();
+      });
+    }));
+  }
+
+  Promise.all(listeners)
+    .then(() => {
+      generateLineNumbers();
+    });
+}
+
 function generateLineNumbers() {
+  // Reset the gutter
+  gutter.innerHTML = '';
+
+  // TODO: Only generate numbers for the actual content inside main
   var amount = Math.ceil(main.scrollHeight / lineHeight);
 
   for (var i = 1; i <= amount; i++) {
@@ -30,14 +75,9 @@ function generateLineNumbers() {
   }
 }
 
-function updateContentScrollHeight() {
-  var remainder = main.scrollHeight % lineHeight;
-
-  if (remainder !== 0) {
-    var element = document.createElement('div');
-    element.style.height = remainder + 'px';
-    main.appendChild(element);
-  }
+function initialize() {
+  openContentPage(tabs[0]);
+  updateMode(modes.normal);
 }
 
 function updateFilenameBlock() {
@@ -48,15 +88,7 @@ function updateFilenameBlock() {
     filename = 'index.html';
   }
 
-  currentTab = tabs.indexOf(filename) + 1; // Tabs start at 1
   fileBlock.innerText = filename;
-}
-
-function initialize() {
-  generateLineNumbers();
-  updateFilenameBlock();
-  updateMode(modes.normal);
-  updateContentScrollHeight();
 }
 
 function updateMode(mode) {
@@ -128,12 +160,12 @@ function updateKeyBlock(key) {
 
 function goToTab(tab) {
   if (tab > 0 && tab <= tabs.length) {
-    console.log('Go to tab: ', tab);
+    openContentPage(tabs[tab-1]);
   } else {
     console.error('Invalid tab id: ', tab);
   }
 
-  previousTab = currentTab;
+  previousTab = currentTab === null ? tab : currentTab;
   currentTab = tab;
 }
 
