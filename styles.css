@@ -5,6 +5,7 @@
   --content-height: 90vh;
   --content-max-height: 800px;
   --gutter-width: 1.5em;
+  --keybinding-display-width: 8em;
   --line-height: 20px;
   --font-size: 12px;
 
@@ -57,10 +58,20 @@ body {
   overflow: hidden;
 }
 
+a, h1, h2, h3, h4, p, pre, textarea {
+  color: var(--color-default-text);
+}
+
 a {
   text-decoration: none;
-  color: var(--color-default-text);
   font-size: var(--font-size);
+}
+
+h1, h2, h3, h4 {
+  line-height: calc(var(--line-height) * 2);
+  margin: 0;
+	padding-left: 0.6em;
+	background-color: rgba(0,0,0,0.4);
 }
 
 p, pre {
@@ -87,8 +98,8 @@ main {
   flex: 1;
   display: inline-flex;
   overflow-y: hidden;
-  padding: 0 var(--spacing-sm);
-  padding-bottom: 0;
+  overflow-x: hidden;
+  padding-left: var(--spacing-sm);
   box-sizing: border-box;
   position: relative;
 }
@@ -114,7 +125,7 @@ aside {
   flex: 1;
   height: auto;
   color: var(--color-default-text);
-  padding: 0 var(--spacing-sm);
+  padding-left: var(--spacing-sm);
   font-size: var(--font-size);
   z-index: var(--z-index-content);
 }
@@ -160,6 +171,14 @@ input {
 	height: var(--bar-height);
   font-size: var(--font-size);
   font-family: monospace;
+}
+
+#command-input {
+  flex: 1;
+}
+
+#keybinding-display {
+  width: var(--keybinding-display-width);
 }
 
 .expand {
