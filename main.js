@@ -39,6 +39,33 @@ function openContentPage(path) {
     });
 }
 
+function updateContentScrollHeight() {
+  // Images and other content may not be an exact multiple of lineHeight
+  // and will cause the scroll block to not go to exactly 100%.
+  var remainder = main.scrollHeight % lineHeight;
+
+  if (remainder !== 0) {
+    var element = document.createElement('div');
+    element.style.height = (lineHeight - remainder) + 'px';
+    gutter.appendChild(element);
+  }
+}
+
+function generateLineNumbers() {
+  // Reset the gutter
+  gutter.innerHTML = '';
+
+  // TODO: Only generate numbers for the actual content inside main
+  var amount = Math.ceil(main.scrollHeight / lineHeight);
+
+  for (var i = 1; i <= amount; i++) {
+    var element = document.createElement('div');
+    element.innerText = i;
+    element.classList.add('line-number');
+    gutter.appendChild(element);
+  }
+}
+
 function waitForImagesToLoad() {
   // Attaches an event-listener to each image in the loaded html file and
   // generates the line numbers when they have all loaded.
@@ -57,22 +84,8 @@ function waitForImagesToLoad() {
   Promise.all(listeners)
     .then(() => {
       generateLineNumbers();
+      updateContentScrollHeight();
     });
-}
-
-function generateLineNumbers() {
-  // Reset the gutter
-  gutter.innerHTML = '';
-
-  // TODO: Only generate numbers for the actual content inside main
-  var amount = Math.ceil(main.scrollHeight / lineHeight);
-
-  for (var i = 1; i <= amount; i++) {
-    var element = document.createElement('div');
-    element.innerText = i;
-    element.classList.add('line-number');
-    gutter.appendChild(element);
-  }
 }
 
 function initialize() {
