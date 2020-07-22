@@ -22,6 +22,8 @@ var previousTab = null;
 var selectedTabElement = null;
 var tabElements = [];
 
+// TODO: Replace anchor tags with buttons and add
+// click-listener for switching tabs using the mouse
 function generateTabs() {
   for (var i = 0; i < tabs.length; i++) {
     const filename = tabs[i];
