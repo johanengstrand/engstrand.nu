@@ -94,8 +94,14 @@ function updateContentScrollHeight() {
 function updateMediaHeight(element) {
   adjustLineOverflow(element.clientHeight, (remainder) => {
     const originalWidth = element.clientWidth + 'px';
-    element.style.height = (element.clientHeight - remainder) + 'px';
-    element.style.width = originalWidth;
+    const newHeight = (element.clientHeight - remainder) + 'px';
+    const parentElement = element.parentElement;
+
+    if (parentElement.tagName === 'P') {
+      parentElement.style.height = newHeight;
+    }
+
+    element.style.height = newHeight;
   });
 }
 
@@ -158,19 +164,28 @@ function waitForMediaToLoad() {
     });
 }
 
-function initialize() {
-  generateTabs();
-  updateMode(modes.normal);
-
+function getCurrentTabId() {
   const path = window.location.pathname
   const filename = path.substring(path.lastIndexOf('/') + 1);
   const tabIndex = tabs.indexOf(filename);
 
   if (tabIndex >= 0) {
-    goToTab(tabIndex + 1);
+    return tabIndex + 1;
+  }
+
+  return -1;
+}
+
+function initialize() {
+  const tabId = getCurrentTabId();
+  if (tabId !== -1) {
+    goToTab(tabId);
   } else {
     goToTab(1);
   }
+
+  generateTabs();
+  updateMode(modes.normal);
 }
 
 function updateFilenameBlock() {
@@ -250,15 +265,15 @@ function updateKeyBlock(key) {
   keyBlock.innerText = keypresses;
 }
 
-function goToTab(tab) {
+function goToTab(tab, saveHistory=true) {
   if (tab <= 0 || tab > tabs.length) {
     console.error('Invalid tab id: ', tab);
     return;
   }
 
   const filename = tabs[tab-1];
-  if (tab !== currentTab) {
-    window.history.pushState({}, '', filename);
+  if (tab !== currentTab && saveHistory) {
+    window.history.pushState({ tabId: tab }, '', filename);
   }
 
   // Update the global variables before opening the content page
@@ -358,6 +373,24 @@ main.addEventListener('scroll', () => {
     });
 
     ticking = true;
+  }
+});
+
+window.addEventListener('popstate', (e) => {
+  var tabId = e.state.tabId;
+
+  // Try to fetch the target tabId from history state first.
+  // If it does not exists, try getting an index from the pathname.
+  // If no tab id can be found, display the index page
+  if (tabId) {
+    goToTab(tabId, false);
+  } else {
+    tabId = getCurrentTabId();
+    if (tabId !== -1) {
+      goToTab(tabId, false);
+    } else {
+      goToTab(1, false);
+    }
   }
 });
 

@@ -1,8 +1,10 @@
 :root {
   --font-family: monospace;
   --window-alpha: 0.8;
-  --bar-height: 1.8em;
-  --content-width: 60em;
+  --bar-height: calc(var(--line-height));
+  --content-min-width: 650px;
+  --content-width: 55vw;
+  --content-max-width: 1000px;
   --content-height: 95vh;
   --content-max-height: 1000px;
   --gutter-width: 1.5em;
@@ -10,7 +12,7 @@
   --keybinding-display-width: 8em;
   --list-marker-width: 3em;
   --line-height: 20px;
-  --font-size: 12px;
+  --font-size: 1em;
 
   --spacing-xsm: 0.35em;
   --spacing-sm: 0.7em;
@@ -53,6 +55,8 @@ body {
 
 #window {
   width: var(--content-width);
+  min-width: var(--content-min-width);
+  max-width: var(--content-max-width);
   height: var(--content-height);
   max-height: var(--content-max-height);
   border: 2px solid var(--color-border);
@@ -78,10 +82,8 @@ a, p, pre, textarea, button {
   color: var(--color-light-text);
 }
 
-p {
-  display: flex;
-  flex-direction: column;
-  margin-top: var(--line-height);
+em {
+  color: var(--color-default-text);
 }
 
 a {
@@ -142,10 +144,14 @@ button {
 }
 
 img, video {
-	max-width: calc(var(--content-width) - var(--gutter-width) - var(--spacing-sm)*2 - var(--line-height));
+	max-width: calc(100% - var(--gutter-width));
   object-fit: cover;
   height: 100%;
   align-self: flex-start;
+}
+
+a > img {
+  max-width: 100%;
 }
 
 img + img {
@@ -167,6 +173,8 @@ blockquote::before {
   content: '--- ';
   color: var(--color-secondary-text);
   margin-right: var(--spacing-sm);
+  display: inline-flex;
+  align-items: center;
 }
 
 code > pre {
@@ -179,6 +187,7 @@ code > pre {
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  height: var(--bar-height);
 }
 
 .tab-active {
@@ -235,7 +244,7 @@ aside {
 }
 
 footer {
-  width: var(--content-width);
+  width: 100%;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -286,7 +295,10 @@ input {
 }
 
 .row {
-  display: inline-flex;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin: var(--line-height) 0;
 }
 
 .align-right {
@@ -301,4 +313,30 @@ input {
 .color-secondary {
   background-color: var(--color-secondary);
   color: var(--color-default-text);
+}
+
+@media screen and (max-width: 750px) {
+  :root {
+    --content-height: calc(100vh - 0px);
+    --content-width: 100%;
+    --content-min-width: unset;
+  }
+
+  #window {
+    border: 0;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  #info {
+    display: none
+  }
+
+  #file {
+    flex: 1;
+  }
+
+  #gutter {
+    display: none;
+  }
 }
