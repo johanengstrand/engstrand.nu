@@ -1,4 +1,5 @@
 :root {
+  --font-family: monospace;
   --window-alpha: 0.8;
   --bar-height: 1.8em;
   --content-width: 50em;
@@ -34,7 +35,7 @@ body.default-theme {
 
 body {
   margin: 0;
-  font-family: monospace;
+  font-family: var(--font-family);
   font-size: var(--font-size);
   background-image: url('img/wallpaper.jpg');
   background-size: cover;
@@ -61,7 +62,7 @@ body {
   overflow: hidden;
 }
 
-a, h1, h2, h3, h4, p, pre, textarea {
+a, h1, h2, h3, h4, p, pre, textarea, button {
   color: var(--color-default-text);
 }
 
@@ -115,13 +116,19 @@ li::marker {
   width: var(--list-marker-width);
 }
 
+button {
+  border: none;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+}
+
 blockquote {
   margin: var(--line-height);
 }
 
 .tab {
   background-color: transparent;
-  padding: var(--spacing-sm);
+  padding: 0 var(--spacing-sm);
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -136,12 +143,17 @@ main {
   width: 100%;
   flex: 1;
   display: inline-flex;
-  overflow-y: hidden;
+  overflow-y: scroll;
   overflow-x: hidden;
   padding-left: var(--spacing-sm);
   padding-top: calc(var(--line-height)/2);
   box-sizing: border-box;
   position: relative;
+  scrollbar-width: none; /* hides the scrollbar in Firefox */
+}
+
+main::-webkit-scrollbar {
+  display: none; /* webkit browsers implementation */
 }
 
 aside {
@@ -210,7 +222,7 @@ input {
 	margin-left: var(--spacing-sm);
 	height: var(--bar-height);
   font-size: var(--font-size);
-  font-family: monospace;
+  font-family: var(--font-family);
 }
 
 #command-input {

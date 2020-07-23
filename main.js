@@ -22,15 +22,16 @@ var previousTab = null;
 var selectedTabElement = null;
 var tabElements = [];
 
-// TODO: Replace anchor tags with buttons and add
-// click-listener for switching tabs using the mouse
 function generateTabs() {
   for (var i = 0; i < tabs.length; i++) {
+    const tabId = i + 1;
     const filename = tabs[i];
-    const element = document.createElement('a');
+    const element = document.createElement('button');
+
     element.classList.add('tab');
-    element.href = filename;
-    element.innerText = (i+1) + ' ' + filename;
+    element.innerText = tabId + ' ' + filename;
+    element.addEventListener('click', () => goToTab(tabId));
+
     tabbar.appendChild(element);
     tabElements.push(element);
   }
