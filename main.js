@@ -161,7 +161,16 @@ function waitForMediaToLoad() {
 function initialize() {
   generateTabs();
   updateMode(modes.normal);
-  goToTab(1);
+
+  const path = window.location.pathname
+  const filename = path.substring(path.lastIndexOf('/') + 1);
+  const tabIndex = tabs.indexOf(filename);
+
+  if (tabIndex >= 0) {
+    goToTab(tabIndex + 1);
+  } else {
+    goToTab(1);
+  }
 }
 
 function updateFilenameBlock() {
@@ -242,15 +251,22 @@ function updateKeyBlock(key) {
 }
 
 function goToTab(tab) {
-  if (tab > 0 && tab <= tabs.length) {
-    // Update the global variables before opening the content page
-    // so that they can be used when the html has loaded.
-    previousTab = currentTab === null ? tab : currentTab;
-    currentTab = tab;
-    openContentPage(tabs[tab-1]);
-  } else {
+  if (tab <= 0 || tab > tabs.length) {
     console.error('Invalid tab id: ', tab);
+    return;
   }
+
+  const filename = tabs[tab-1];
+  if (tab !== currentTab) {
+    window.history.pushState({}, '', filename);
+  }
+
+  // Update the global variables before opening the content page
+  // so that they can be used when the html has loaded.
+  previousTab = currentTab === null ? tab : currentTab;
+  currentTab = tab;
+
+  openContentPage(filename);
 }
 
 function commandModeKeybindings(key) {

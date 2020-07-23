@@ -278,6 +278,7 @@ input {
 
 #keybinding-display {
   width: var(--keybinding-display-width);
+  margin: 0;
 }
 
 .expand {
