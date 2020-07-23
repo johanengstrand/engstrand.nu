@@ -29,6 +29,7 @@ body.default-theme {
   --color-accent-text: #333;
   --color-light-text: #e8e8e8;
   --color-secondary-text: #7493ff;
+  --color-line-number: #7b7b7b;
   --color-border: #f0d1ce;
   --color-window: rgba(18, 18, 16, 0.91);
 }
@@ -80,21 +81,23 @@ a, p, pre, textarea, button {
 p {
   display: flex;
   flex-direction: column;
+  margin-top: var(--line-height);
 }
 
 a {
-  text-decoration: none;
   font-size: var(--font-size);
+  font-weight: bold;
   height: var(--line-height);
   display: inline-block;
   margin-right: calc(var(--line-height)/2);
+  color: var(--color-primary);
 }
 
 h1 {
   font-size: calc(var(--line-height)*0.7);
 }
 
-h1:first-of-type {
+h1:first-of-type, blockquote > p {
   margin-top: 0;
 }
 
@@ -138,7 +141,7 @@ button {
   font-size: var(--font-size);
 }
 
-img {
+img, video {
 	max-width: calc(var(--content-width) - var(--gutter-width) - var(--spacing-sm)*2 - var(--line-height));
   object-fit: cover;
   height: 100%;
@@ -153,11 +156,17 @@ blockquote {
   margin: var(--line-height);
   font-style: italic;
   font-weight: bold;
+  display: inline-flex;
+}
+
+blockquote, blockquote > p {
+  color: var(--color-default-text);
 }
 
 blockquote::before {
   content: '--- ';
   color: var(--color-secondary-text);
+  margin-right: var(--spacing-sm);
 }
 
 code > pre {
@@ -203,7 +212,7 @@ aside {
 }
 
 .line-number {
-  color: var(--color-light-text);
+  color: var(--color-line-number);
   text-align: right;
   padding: 0;
   margin: 0;
@@ -273,6 +282,10 @@ input {
 
 .expand {
   flex: 1;
+}
+
+.row {
+  display: inline-flex;
 }
 
 .align-right {

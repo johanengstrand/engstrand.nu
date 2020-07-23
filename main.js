@@ -63,7 +63,7 @@ function openContentPage(path) {
       updateFilenameBlock();
       generateLineNumbers(); // Generate temporary line numbers
       resetScrollBlock();
-      waitForImagesToLoad();
+      waitForMediaToLoad();
     })
     .catch((error) => {
       console.error(error);
@@ -87,11 +87,11 @@ function updateContentScrollHeight() {
   });
 }
 
-function updateImageHeight(image) {
-  adjustLineOverflow(image.height, (remainder) => {
-    const originalWidth = image.width + 'px';
-    image.style.height = (image.height - remainder) + 'px';
-    image.style.width = originalWidth;
+function updateMediaHeight(element) {
+  adjustLineOverflow(element.clientHeight, (remainder) => {
+    const originalWidth = element.clientWidth + 'px';
+    element.style.height = (element.clientHeight - remainder) + 'px';
+    element.style.width = originalWidth;
   });
 }
 
@@ -106,6 +106,12 @@ function outerHeight(element) {
 }
 
 function calculateRealContentHeight() {
+  // If the content overflows, we can simply return the scrollHeight, since that is real content height
+  if (content.scrollHeight > content.clientHeight) {
+    return content.scrollHeight;
+  }
+
+  // Otherwise, calculate the height of the children and generate lines based on that
   return Array.from(content.children).reduce((total, child) => total + outerHeight(child), 0);
 }
 
@@ -124,17 +130,18 @@ function generateLineNumbers() {
   }
 }
 
-function waitForImagesToLoad() {
+function waitForMediaToLoad() {
   // Attaches an event-listener to each image in the loaded html file and
   // generates the line numbers when they have all loaded.
-  const images = content.querySelectorAll('img');
+  const media = content.querySelectorAll('img, video');
   var listeners = [];
 
   // Create a list of promises
-  for (const image of images) {
+  for (const element of media) {
     listeners.push(new Promise((resolve, _) => {
-      image.addEventListener('load', () => {
-        updateImageHeight(image);
+      const listenEvent = element.tagName === 'VIDEO' ? 'loadedmetadata' : 'load';
+      element.addEventListener(listenEvent, () => {
+        updateMediaHeight(element);
         resolve();
       });
     }));
