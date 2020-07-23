@@ -16,3 +16,25 @@
 <li>Third item</li>
 </ul>
 <p>Here’s a real cool guy <img src="../img/7253137.jpg" alt="Fredrik" /></p>
+<blockquote>hello</blockquote>
+<code>
+  <pre>
+function generateLineNumbers() {
+  // Reset the gutter
+  gutter.innerHTML = '';
+
+  const contentHeight = calculateRealContentHeight();
+  const amount = Math.ceil(contentHeight / lineHeight);
+
+  console.log(contentHeight);
+  console.log(amount);
+
+  for (var i = 1; i <= amount; i++) {
+    const element = document.createElement('div');
+    element.innerText = i;
+    element.classList.add('line-number');
+    gutter.appendChild(element);
+  }
+}
+  </pre>
+</code>

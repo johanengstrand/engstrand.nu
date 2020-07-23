@@ -25,11 +25,10 @@ var tabElements = [];
 function generateTabs() {
   tabs.forEach((tab, index) => {
     const tabId = index + 1;
-    const filename = tabs[index];
     const element = document.createElement('button');
 
     element.classList.add('tab');
-    element.innerText = tabId + ' ' + filename;
+    element.innerText = tabId + ' ' + tab;
     element.addEventListener('click', () => goToTab(tabId));
 
     tabbar.appendChild(element);
@@ -63,6 +62,7 @@ function openContentPage(path) {
       updateSelectedTab();
       updateFilenameBlock();
       generateLineNumbers(); // Generate temporary line numbers
+      resetScrollBlock();
       waitForImagesToLoad();
     })
     .catch((error) => {
@@ -176,6 +176,10 @@ function scrollContentToBottom() {
   main.scrollTo(0, main.scrollHeight);
 }
 
+function resetScrollBlock() {
+  scrollBlock.innerText = '0%';
+}
+
 function scrollContent(amount) {
   if (amount > 0) {
     var treshold = main.scrollTop + (main.clientHeight - (main.clientHeight % lineHeight) + lineHeight);
@@ -199,7 +203,7 @@ function scrollContent(amount) {
   main.scrollBy(0, amount);
 
   if (main.scrollTop === 0) {
-    scrollBlock.innerText = '0%';
+    resetScrollBlock();
   } else {
     scrollBlock.innerText = parseInt(main.scrollTop / (main.scrollHeight - main.clientHeight) * 100)+ '%';
   }

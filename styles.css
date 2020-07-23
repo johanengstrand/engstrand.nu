@@ -27,7 +27,7 @@ body.default-theme {
   --color-background-light: #2f3332;
   --color-default-text: #ffffff;
   --color-accent-text: #333;
-  --color-light-text: #aaaaaa;
+  --color-light-text: #e8e8e8;
   --color-secondary-text: #7493ff;
   --color-border: #f0d1ce;
   --color-window: rgba(18, 18, 16, 0.91);
@@ -62,8 +62,8 @@ body {
   overflow: hidden;
 }
 
-a, h1, h2, h3, h4, p, pre, textarea, button {
-  color: var(--color-default-text);
+a, p, pre, textarea, button {
+  color: var(--color-light-text);
 }
 
 a {
@@ -71,33 +71,34 @@ a {
   font-size: var(--font-size);
 }
 
-h1, h2, h3 {
+h1, h2, h3, h4, h5 {
   line-height: var(--line-height);
+  color: var(--color-default-text);
   margin: 0;
   margin-top: var(--line-height);
+  text-transform: uppercase;
+}
+
+h1::before, h2::before, h3::before, h4::before, h5::before {
+  content: '[';
+  color: var(--color-secondary-text);
+}
+
+h1::after, h2::after, h3::after, h4::after, h5::after {
+  content: ']';
+  color: var(--color-secondary-text);
+}
+
+h1 {
+  font-size: calc(var(--line-height)*0.7);
 }
 
 h1:first-of-type {
   margin-top: 0;
 }
 
-h1::before, h2::before, h3::before {
-  content: '[#]';
-  color: var(--color-secondary-text);
-  margin-right: 0.3em;
-}
-
-h1 {
-  font-size: calc(var(--line-height)*0.8);
-  line-height: calc(var(--line-height));
-}
-
-h2 {
-  font-size: calc(var(--line-height)*0.7);
-}
-
-h3 {
-  font-size: calc(var(--line-height)*0.6);
+h2, h3, h4, h5 {
+  font-size: var(--font-size);
 }
 
 ol, ul, li, p, pre {
@@ -124,6 +125,17 @@ button {
 
 blockquote {
   margin: var(--line-height);
+  font-style: italic;
+  font-weight: bold;
+}
+
+blockquote::before {
+  content: '--- ';
+  color: var(--color-secondary-text);
+}
+
+code > pre {
+  padding-left: var(--line-height);
 }
 
 .tab {
@@ -184,7 +196,7 @@ aside {
 
 #scroll {
   width: var(--scroll-block-width);
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 footer {
