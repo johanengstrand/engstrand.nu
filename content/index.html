@@ -4,8 +4,11 @@
 <h2 id="some-cool-code">Some cool code</h2>
 <p><code>code</code></p>
 <h3 id="something-else">Something else</h3>
-<p>Hey guys here’s more information &gt; blockquote</p>
-<ol type="1">
+<p>Hey guys here's more information</p>
+<blockquote>
+<p>blockquote</p>
+</blockquote>
+<ol>
 <li>First item</li>
 <li>Second item</li>
 <li>Third item</li>
@@ -15,26 +18,4 @@
 <li>Second item</li>
 <li>Third item</li>
 </ul>
-<p>Here’s a real cool guy <img src="../img/7253137.jpg" alt="Fredrik" /></p>
-<blockquote>hello</blockquote>
-<code>
-  <pre>
-function generateLineNumbers() {
-  // Reset the gutter
-  gutter.innerHTML = '';
-
-  const contentHeight = calculateRealContentHeight();
-  const amount = Math.ceil(contentHeight / lineHeight);
-
-  console.log(contentHeight);
-  console.log(amount);
-
-  for (var i = 1; i <= amount; i++) {
-    const element = document.createElement('div');
-    element.innerText = i;
-    element.classList.add('line-number');
-    gutter.appendChild(element);
-  }
-}
-  </pre>
-</code>
+<p>Here's a real cool guy <img src="../img/7253137.jpg" alt="Fredrik" /></p>
