@@ -70,16 +70,29 @@ function openContentPage(path) {
     });
 }
 
+function adjustLineOverflow(elementHeight, callback) {
+  const remainder = elementHeight % lineHeight;
+  if (remainder !== 0) {
+    callback(remainder);
+  }
+}
+
 function updateContentScrollHeight() {
   // Images and other content may not be an exact multiple of lineHeight
   // and will cause the scroll block to not go to exactly 100%.
-  var remainder = main.scrollHeight % lineHeight;
-
-  if (remainder !== 0) {
+  adjustLineOverflow(main.scrollHeight, (remainder) => {
     const element = document.createElement('div');
     element.style.height = (lineHeight - remainder) + 'px';
     gutter.appendChild(element);
-  }
+  });
+}
+
+function updateImageHeight(image) {
+  adjustLineOverflow(image.height, (remainder) => {
+    const originalWidth = image.width + 'px';
+    image.style.height = (image.height - remainder) + 'px';
+    image.style.width = originalWidth;
+  });
 }
 
 function outerHeight(element) {
@@ -121,6 +134,7 @@ function waitForImagesToLoad() {
   for (const image of images) {
     listeners.push(new Promise((resolve, _) => {
       image.addEventListener('load', () => {
+        updateImageHeight(image);
         resolve();
       });
     }));

@@ -2,9 +2,9 @@
   --font-family: monospace;
   --window-alpha: 0.8;
   --bar-height: 1.8em;
-  --content-width: 50em;
-  --content-height: 90vh;
-  --content-max-height: 800px;
+  --content-width: 60em;
+  --content-height: 95vh;
+  --content-max-height: 1000px;
   --gutter-width: 1.5em;
   --scroll-block-width: 2.5em;
   --keybinding-display-width: 8em;
@@ -62,13 +62,40 @@ body {
   overflow: hidden;
 }
 
+a, ol, ul, li, p, pre {
+  line-height: var(--line-height);
+  font-size: var(--font-size);
+  margin: 0;
+}
+
+ol, ul {
+  margin-bottom: var(--line-height);
+  padding-left: calc(var(--line-height)*1.5);
+}
+
 a, p, pre, textarea, button {
   color: var(--color-light-text);
+}
+
+p {
+  display: flex;
+  flex-direction: column;
 }
 
 a {
   text-decoration: none;
   font-size: var(--font-size);
+  height: var(--line-height);
+  display: inline-block;
+  margin-right: calc(var(--line-height)/2);
+}
+
+h1 {
+  font-size: calc(var(--line-height)*0.7);
+}
+
+h1:first-of-type {
+  margin-top: 0;
 }
 
 h1, h2, h3, h4, h5 {
@@ -77,6 +104,10 @@ h1, h2, h3, h4, h5 {
   margin: 0;
   margin-top: var(--line-height);
   text-transform: uppercase;
+}
+
+h2, h3, h4, h5 {
+  font-size: var(--font-size);
 }
 
 h1::before, h2::before, h3::before, h4::before, h5::before {
@@ -89,27 +120,11 @@ h1::after, h2::after, h3::after, h4::after, h5::after {
   color: var(--color-secondary-text);
 }
 
-h1 {
-  font-size: calc(var(--line-height)*0.7);
-}
-
-h1:first-of-type {
-  margin-top: 0;
-}
-
-h2, h3, h4, h5 {
-  font-size: var(--font-size);
-}
-
-ol, ul, li, p, pre {
-  line-height: var(--line-height);
-  font-size: var(--font-size);
-  margin: 0;
-}
-
-ol, ul {
-  margin: var(--line-height) 0;
-  padding-left: calc(var(--line-height)*2);
+input[type=checkbox] {
+  -webkit-appearance: none;
+  -moz-appearance:    none;
+  appearance:         none;
+  display: none; /* i dont feel like fixing this shit */
 }
 
 li::marker {
@@ -121,6 +136,17 @@ button {
   border: none;
   font-family: var(--font-family);
   font-size: var(--font-size);
+}
+
+img {
+	max-width: calc(var(--content-width) - var(--gutter-width) - var(--spacing-sm)*2 - var(--line-height));
+  object-fit: cover;
+  height: 100%;
+  align-self: flex-start;
+}
+
+img + img {
+	margin-top: var(--line-height);
 }
 
 blockquote {
