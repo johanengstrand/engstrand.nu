@@ -1,30 +1,30 @@
 # Pywalfox
 
-<div class="row">
 [<img src="https://img.shields.io/amo/v/pywalfox">](https://addons.mozilla.org/en-US/firefox/addon/pywalfox/)
 [<img src="https://img.shields.io/amo/stars/pywalfox">](https://addons.mozilla.org/en-US/firefox/addon/pywalfox/)
 [<img src="https://img.shields.io/amo/users/pywalfox">](https://addons.mozilla.org/en-US/firefox/addon/pywalfox/)
 [<img src="https://img.shields.io/amo/dw/pywalfox">](https://addons.mozilla.org/en-US/firefox/addon/pywalfox/)
 [<img src="https://img.shields.io/github/license/frewacom/pywalfox">](https://www.mozilla.org/en-US/MPL/2.0/FAQ/)
-</div>
 
-![Pywalfox in action](https://imgur.com/mlY1wLH)
+![Pywalfox in action](https://i.imgur.com/mlY1wLH.mp4)
 
-*Dynamic theming of Firefox (and Thunderbird) using your Pywal colors*
+*Dynamic theming of Firefox (and Thunderbird) using your Pywal colors* (italic)
+***Dynamic theming of Firefox (and Thunderbird) using your Pywal colors*** (italic+bold)
+> Dynamic theming of Firefox (and Thunderbird) using your Pywal colors (blockquote)
 
 - Tired of Firefox not respecting your gorgeous Pywal colors like the rest of your system?
 - Looking to rack up some karma :arrow_up: on [/r/unixporn](https://reddit.com/r/unixporn)?
 
 **These images are side-by-side:**
 
-![A Firefox theme with Pywalfox](https://imgur.com/ZZTTU7r)
-![A Firefox theme with Pywalfox](https://imgur.com/fKHxiHo)
+![A Firefox theme with Pywalfox](https://i.imgur.com/ZZTTU7r.png)
+![A Firefox theme with Pywalfox](https://i.imgur.com/fKHxiHo.png)
 
 **These images are *not* side-by-side:**
 
-![A Firefox theme with Pywalfox](https://imgur.com/oXCt4wd)
+![A Firefox theme with Pywalfox](https://i.imgur.com/oXCt4wd.png)
 
-![A Firefox theme with Pywalfox](https://imgur.com/eISvXBd)
+![A Firefox theme with Pywalfox](https://i.imgur.com/eISvXBd.png)
 
 With Pywalfox you can:
 - [x] Customize the colors of almost every UI element
@@ -44,5 +44,5 @@ With Pywalfox you can:
 - Thunderbird support added
 
 ## Get Pywalfox
-[Firefox add-on](https://addons.mozilla.org/en-US/firefox/addon/pywalfox/)
-[Thunderbird add-on](https://addons.thunderbird.net/sv-SE/thunderbird/addon/pywalfox/)
+- [Firefox add-on](https://addons.mozilla.org/en-US/firefox/addon/pywalfox/)
+- [Thunderbird add-on](https://addons.thunderbird.net/sv-SE/thunderbird/addon/pywalfox/)
