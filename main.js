@@ -21,6 +21,8 @@ var currentTab = null;
 var previousTab = null;
 var selectedTabElement = null;
 var tabElements = [];
+var scrollPosition;
+var ticking = false;
 
 function generateTabs() {
   tabs.forEach((tab, index) => {
@@ -71,6 +73,8 @@ function openContentPage(path) {
 }
 
 function adjustLineOverflow(elementHeight, callback) {
+  // If adjustment is needed to align with the lines,
+  // send the amount in pixels to callback for adjustment
   const remainder = elementHeight % lineHeight;
   if (remainder !== 0) {
     callback(remainder);
@@ -201,6 +205,14 @@ function resetScrollBlock() {
   scrollBlock.innerText = '0%';
 }
 
+function updateScrollBlock() {
+  if (main.scrollTop === 0) {
+    resetScrollBlock();
+  } else {
+    scrollBlock.innerText = parseInt(main.scrollTop / (main.scrollHeight - main.clientHeight) * 100)+ '%';
+  }
+}
+
 function scrollContent(amount) {
   if (amount > 0) {
     var treshold = main.scrollTop + (main.clientHeight - (main.clientHeight % lineHeight) + lineHeight);
@@ -222,12 +234,6 @@ function scrollContent(amount) {
   }
 
   main.scrollBy(0, amount);
-
-  if (main.scrollTop === 0) {
-    resetScrollBlock();
-  } else {
-    scrollBlock.innerText = parseInt(main.scrollTop / (main.scrollHeight - main.clientHeight) * 100)+ '%';
-  }
 }
 
 function updateKeyBlock(key) {
@@ -322,6 +328,20 @@ window.addEventListener('keydown', (e) => {
     updateMode(modes.command);
   } else {
     currentMode === modes.normal ? normalModeKeybindings(key) : commandModeKeybindings(key);
+  }
+});
+
+main.addEventListener('scroll', () => {
+  // Updates the scroll block when scrolling using both mouse and j/k
+  scrollPosition = window.scrollY;
+
+  if (!ticking) {
+    window.requestAnimationFrame(() => {
+      updateScrollBlock();
+      ticking = false;
+    });
+
+    ticking = true;
   }
 });
 
