@@ -23,9 +23,9 @@ var selectedTabElement = null;
 var tabElements = [];
 
 function generateTabs() {
-  for (var i = 0; i < tabs.length; i++) {
-    const tabId = i + 1;
-    const filename = tabs[i];
+  tabs.forEach((tab, index) => {
+    const tabId = index + 1;
+    const filename = tabs[index];
     const element = document.createElement('button');
 
     element.classList.add('tab');
@@ -34,7 +34,7 @@ function generateTabs() {
 
     tabbar.appendChild(element);
     tabElements.push(element);
-  }
+  });
 }
 
 function updateSelectedTab() {
@@ -82,12 +82,26 @@ function updateContentScrollHeight() {
   }
 }
 
+function outerHeight(element) {
+  // https://stackoverflow.com/questions/10787782/full-height-of-a-html-element-div-including-border-padding-and-margin
+  const height = element.offsetHeight;
+  const style = window.getComputedStyle(element);
+
+  return ['top', 'bottom']
+    .map(side => parseInt(style[`margin-${side}`]))
+    .reduce((total, side) => total + side, height);
+}
+
+function calculateRealContentHeight() {
+  return Array.from(content.children).reduce((total, child) => total + outerHeight(child), 0);
+}
+
 function generateLineNumbers() {
   // Reset the gutter
   gutter.innerHTML = '';
 
-  // TODO: Only generate numbers for the actual content inside main
-  var amount = Math.ceil(main.scrollHeight / lineHeight);
+  const contentHeight = calculateRealContentHeight();
+  const amount = Math.ceil(contentHeight / lineHeight);
 
   for (var i = 1; i <= amount; i++) {
     const element = document.createElement('div');
