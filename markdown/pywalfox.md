@@ -6,7 +6,7 @@
 [<img src="https://img.shields.io/amo/dw/pywalfox">](https://addons.mozilla.org/en-US/firefox/addon/pywalfox/)
 [<img src="https://img.shields.io/github/license/frewacom/pywalfox">](https://www.mozilla.org/en-US/MPL/2.0/FAQ/)
 
-![Pywalfox in action](https://i.imgur.com/mlY1wLH.mp4)
+![Pywalfox in action](https://i.imgur.com/mlY1wLH.gif)
 
 *Dynamic theming of Firefox (and Thunderbird) using your Pywal colors* (italic)
 ***Dynamic theming of Firefox (and Thunderbird) using your Pywal colors*** (italic+bold)
