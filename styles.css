@@ -159,7 +159,7 @@ img + img {
 }
 
 blockquote {
-  margin: var(--line-height);
+  margin: var(--line-height) 0;
   font-style: italic;
   font-weight: bold;
   display: inline-flex;
