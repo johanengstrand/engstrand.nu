@@ -305,14 +305,22 @@ input {
   justify-content: flex-end;
 }
 
-.color-primary {
+.block-primary {
   background-color: var(--color-primary);
   color: var(--color-accent-text);
 }
 
-.color-secondary {
+.block-secondary {
   background-color: var(--color-secondary);
   color: var(--color-default-text);
+}
+
+.color-primary {
+  color: var(--color-primary);
+}
+
+.color-secondary {
+  color: var(--color-secondary);
 }
 
 @media screen and (max-width: 750px) {
