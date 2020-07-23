@@ -76,6 +76,7 @@ a, ol, ul, li, p, pre {
 
 ol, ul {
   padding-left: calc(var(--line-height)*1.5);
+  margin-bottom: var(--line-height);
 }
 
 a, p, pre, textarea, button {
@@ -95,15 +96,12 @@ a {
   color: var(--color-primary);
 }
 
-h1 {
-  font-size: var(--font-size);
-}
-
 h1:first-of-type, blockquote > p {
   margin-top: 0;
 }
 
 h1, h2, h3, h4, h5 {
+  font-size: var(--font-size);
   line-height: var(--line-height);
   color: var(--color-default-text);
   margin: 0;
@@ -111,18 +109,33 @@ h1, h2, h3, h4, h5 {
   text-transform: uppercase;
 }
 
-h2, h3, h4, h5 {
-  font-size: calc(var(--font-size)*0.7);
-}
-
-h1::before, h2::before, h3::before, h4::before, h5::before {
-  content: '[';
-  color: var(--color-secondary-text);
-}
-
+h1::before, h2::before, h3::before, h4::before, h5::before,
 h1::after, h2::after, h3::after, h4::after, h5::after {
-  content: ']';
   color: var(--color-secondary-text);
+}
+
+h3::before {
+  content: '[';
+}
+
+h3::after {
+  content: ']';
+}
+
+h2::before {
+  content: '[[';
+}
+
+h2::after {
+  content: ']]';
+}
+
+h1::before {
+  content: '/=== ';
+}
+
+h1::after {
+  content: ' ===\\';
 }
 
 input[type=checkbox] {
