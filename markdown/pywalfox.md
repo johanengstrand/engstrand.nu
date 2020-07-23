@@ -1,10 +1,12 @@
 # Pywalfox
 
+<div class="row">
 [<img src="https://img.shields.io/amo/v/pywalfox">](https://addons.mozilla.org/en-US/firefox/addon/pywalfox/)
 [<img src="https://img.shields.io/amo/stars/pywalfox">](https://addons.mozilla.org/en-US/firefox/addon/pywalfox/)
 [<img src="https://img.shields.io/amo/users/pywalfox">](https://addons.mozilla.org/en-US/firefox/addon/pywalfox/)
 [<img src="https://img.shields.io/amo/dw/pywalfox">](https://addons.mozilla.org/en-US/firefox/addon/pywalfox/)
 [<img src="https://img.shields.io/github/license/frewacom/pywalfox">](https://www.mozilla.org/en-US/MPL/2.0/FAQ/)
+</div>
 
 ![Pywalfox in action](https://imgur.com/mlY1wLH)
 
