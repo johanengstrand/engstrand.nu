@@ -1,4 +1,3 @@
-# Pywalfox
 <pre class="color-primary">
                                          ▄▄▄▄         ▄▄▄▄
                                          ▀▀██        ██▀▀▀
