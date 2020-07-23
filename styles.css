@@ -115,27 +115,27 @@ h1::after, h2::after, h3::after, h4::after, h5::after {
 }
 
 h3::before {
-  content: '[';
+  content: '[ ';
 }
 
 h3::after {
-  content: ']';
+  content: ' ]';
 }
 
 h2::before {
-  content: '[[';
+  content: '[[ ';
 }
 
 h2::after {
-  content: ']]';
+  content: ' ]]';
 }
 
 h1::before {
-  content: '/=== ';
+  content: '═════ ';
 }
-
+/* ▬▬ι═══════ﺤ */
 h1::after {
-  content: ' ===\\';
+  content: ' ═════';
 }
 
 input[type=checkbox] {
