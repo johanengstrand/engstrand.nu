@@ -1,5 +1,5 @@
 const lineHeight = 20;
-const tabs = ['index.html', 'johan.html', 'fredrik.html', 'contact.html'];
+const tabs = ['index.html', 'johan.html', 'fredrik.html', 'pywalfox.html', 'contact.html'];
 const modes = {
   normal: 'NORMAL',
   command: 'COMMAND',
