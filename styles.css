@@ -2,11 +2,12 @@
   --font-family: monospace;
   --window-alpha: 0.8;
   --bar-height: calc(var(--font-size)*1.5);
-  --content-min-width: 650px;
-  --content-width: 55vw;
-  --content-max-width: 1000px;
+  --content-min-width: 750px;
+  --content-width: 65vw;
+  --content-max-width: 900px;
   --content-height: 95vh;
-  --content-max-height: 1000px;
+  --content-max-height: 1200px;
+  --content-inner-max-width: 670px;
   --gutter-width: 1.5em;
   --scroll-block-width: 2.5em;
   --keybinding-display-width: 8em;
@@ -95,7 +96,7 @@ a {
 }
 
 h1 {
-  font-size: calc(var(--line-height)*0.7);
+  font-size: var(--font-size);
 }
 
 h1:first-of-type, blockquote > p {
@@ -111,7 +112,7 @@ h1, h2, h3, h4, h5 {
 }
 
 h2, h3, h4, h5 {
-  font-size: var(--font-size);
+  font-size: calc(var(--font-size)*0.7);
 }
 
 h1::before, h2::before, h3::before, h4::before, h5::before {
@@ -200,7 +201,7 @@ main {
   flex: 1;
   display: inline-flex;
   overflow-y: scroll;
-  overflow-x: hidden;
+  overflow-x: scroll;
   padding-left: var(--spacing-sm);
   padding-top: calc(var(--line-height)/2);
   box-sizing: border-box;
@@ -236,6 +237,7 @@ aside {
   padding: 0 var(--line-height);
   font-size: var(--font-size);
   z-index: var(--z-index-content);
+  max-width: var(--content-inner-max-width);
 }
 
 #scroll {
@@ -324,19 +326,13 @@ input {
   color: var(--color-secondary);
 }
 
-@media screen and (max-width: 1100px) and (min-height: 900px) {
-  :root {
-    --content-width: 70vw;
-    --content-min-width: unset;
-  }
-}
-
 @media screen and (max-width: 750px) {
   :root {
     --content-height: calc(100vh - 0px);
     --content-max-height: unset;
     --content-width: 100%;
     --content-min-width: unset;
+    --content-max-width: unset;
   }
 
   #window {
