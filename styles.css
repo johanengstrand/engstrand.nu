@@ -1,7 +1,7 @@
 :root {
   --font-family: monospace;
   --window-alpha: 0.8;
-  --bar-height: calc(var(--line-height));
+  --bar-height: calc(var(--font-size)*1.5);
   --content-min-width: 650px;
   --content-width: 55vw;
   --content-max-width: 1000px;
@@ -12,7 +12,7 @@
   --keybinding-display-width: 8em;
   --list-marker-width: 3em;
   --line-height: 20px;
-  --font-size: 1em;
+  --font-size: 1rem;
 
   --spacing-xsm: 0.35em;
   --spacing-sm: 0.7em;
@@ -74,7 +74,6 @@ a, ol, ul, li, p, pre {
 }
 
 ol, ul {
-  margin-bottom: var(--line-height);
   padding-left: calc(var(--line-height)*1.5);
 }
 
@@ -144,8 +143,9 @@ button {
 }
 
 img, video {
-	max-width: calc(100% - var(--gutter-width));
-  object-fit: cover;
+  max-width: 100%;
+	min-width: 100%;
+  object-fit: contain;
   height: 100%;
   align-self: flex-start;
 }
@@ -233,7 +233,7 @@ aside {
   flex: 1;
   height: auto;
   color: var(--color-default-text);
-  padding-left: var(--spacing-sm);
+  padding: 0 var(--line-height);
   font-size: var(--font-size);
   z-index: var(--z-index-content);
 }
@@ -252,6 +252,7 @@ footer {
 
 .bar {
   display: inline-flex;
+  align-items: center;
   height: var(--bar-height);
   width: 100%;
   background-color: var(--color-background-light);
@@ -323,9 +324,17 @@ input {
   color: var(--color-secondary);
 }
 
+@media screen and (max-width: 1100px) and (min-height: 900px) {
+  :root {
+    --content-width: 70vw;
+    --content-min-width: unset;
+  }
+}
+
 @media screen and (max-width: 750px) {
   :root {
     --content-height: calc(100vh - 0px);
+    --content-max-height: unset;
     --content-width: 100%;
     --content-min-width: unset;
   }

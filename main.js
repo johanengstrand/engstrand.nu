@@ -238,23 +238,14 @@ function updateScrollBlock() {
 }
 
 function scrollContent(amount) {
-  if (amount > 0) {
-    var treshold = main.scrollTop + (main.clientHeight - (main.clientHeight % lineHeight) + lineHeight);
-    if (treshold > main.scrollHeight) {
-      // We only want to sroll even steps
-      return;
-    }
-  }
-
   if (keypresses.length > 0) {
-    // TODO: I think parseInt() simply ignores letters, which is not ideal
-    if (isNumber(keypresses)) {
-      amount *= parseInt(keypresses);
-      resetKeyBlock();
-    } else {
-      // If we have previous keypresses that are not numbers, it is an invalid command.
+    if (!isNumber(keypresses)) {
       return;
     }
+
+    // TODO: I think parseInt() simply ignores letters, which is not ideal
+    amount *= parseInt(keypresses);
+    resetKeyBlock();
   }
 
   main.scrollBy(0, amount);
