@@ -360,7 +360,7 @@ input {
   color: var(--color-secondary);
 }
 
-*[data-type=".ascii"] {
+*[data-type="@ascii"] {
   color: var(--color-primary);
   display: inline-block; /* Keep the width the same as the width of the text */
 }
@@ -460,7 +460,7 @@ only screen and (                min-resolution: 2dppx)  and (max-width: 650px) 
     flex: 1;
   }
 
-  *[data-type=".ascii"] {
+  *[data-type="@ascii"] {
     font-size: calc(var(--font-size)*0.7);
   }
 }
