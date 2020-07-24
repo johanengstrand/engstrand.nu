@@ -45,12 +45,15 @@ function generateTabs() {
     const tabExtension = tab.substr(extensionStartIndex);
 
     const element = document.createElement('button');
-    const htmlTagSpan = document.createElement('span');
+    const tabData = [tabId, tabName, tabExtension];
 
-    element.innerText = tabId + ' ' + tabName;
+    tabData.forEach((data) => {
+      const span = document.createElement('span');
+      span.innerText = data;
+      element.appendChild(span);
+    });
+
     element.classList.add('tab');
-    htmlTagSpan.innerText = tabExtension;
-    element.appendChild(htmlTagSpan);
     element.addEventListener('click', () => goToTab(tabId));
 
     tabbar.appendChild(element);

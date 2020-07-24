@@ -8,7 +8,7 @@
   --content-height: 95vh;
   --content-max-height: 1200px;
   --content-inner-max-width: 670px;
-  --gutter-width: 2em;
+  --gutter-width: 2.5em;
   --scroll-block-width: 2.5em;
   --list-indent-width: 2em;
   --keybinding-display-width: 8em;
@@ -116,6 +116,11 @@ h1, h2, h3, h4, h5 {
   margin: 0;
   margin-top: var(--line-height);
   text-transform: uppercase;
+}
+
+h1 {
+  line-height: calc(var(--line-height)*2);
+  font-size: var(--line-height);
 }
 
 h1::before, h2::before, h3::before, h4::before, h5::before,
@@ -229,6 +234,10 @@ code > pre {
   align-items: center;
   height: var(--bar-height);
   font-size: var(--font-size);
+}
+
+.tab > span:first-of-type {
+  margin-right: 0.5em;
 }
 
 .tab-active {
@@ -367,9 +376,9 @@ input {
   color: var(--color-secondary);
 }
 
-pre[data-type="@ascii"] {
+pre[data-type="@ascii"] > pre {
   color: var(--color-primary);
-  display: inline-block; /* Keep the width the same as the width of the text */
+  display: inline-flex; /* Keep the width the same as the width of the text */
 }
 
 pre[data-type="@ascii"] > h1 {
@@ -391,7 +400,9 @@ only screen and (                min-resolution: 2dppx)  and (min-width: 320px) 
     --content-min-width: unset;
     --content-max-width: unset;
     --line-height: 20px;
-    --content-inner-max-width: calc(100% - var(--gutter-width) - var(--line-height));
+    --content-inner-max-width: 100%;
+    --gutter-width: 2em;
+    --list-indent-width: var(--line-height);
   }
 
   #window {
@@ -416,8 +427,9 @@ only screen and (                min-resolution: 2dppx)  and (min-width: 320px) 
     padding: 0 var(--spacing);
   }
 
-  .tab > span {
-    display: none;
+  img, video {
+    width: 100%;
+    object-fit: cover;
   }
 
   footer {
@@ -428,16 +440,19 @@ only screen and (                min-resolution: 2dppx)  and (min-width: 320px) 
   }
 }
 
-@media
-only screen and (max-width: 750px),
+@media screen and (max-width: 780px),
 only screen and (-webkit-min-device-pixel-ratio: 2)      and (max-width: 800px),
 only screen and (   min--moz-device-pixel-ratio: 2)      and (max-width: 800px),
 only screen and (     -o-min-device-pixel-ratio: 2/1)    and (max-width: 800px),
 only screen and (        min-device-pixel-ratio: 2)      and (max-width: 800px),
 only screen and (                min-resolution: 192dpi) and (max-width: 800px),
 only screen and (                min-resolution: 2dppx)  and (max-width: 800px) {
-  *[data-type="@ascii"] {
+  pre[data-type="@ascii"] > pre {
     font-size: calc(var(--font-size)*0.7);
+  }
+
+  .tab > span:last-of-type {
+    display: none;
   }
 }
 
@@ -465,16 +480,16 @@ only screen and (                min-resolution: 2dppx)  and (max-width: 700px) 
     display: none;
   }
 
-  .tab > span {
-    display: none;
-  }
-
   #info {
     display: none
   }
 
   #file {
     flex: 1;
+  }
+
+  .tab > span:first-of-type, .tab > span:last-of-type {
+    display: none;
   }
 
   pre[data-type="@ascii"] > pre {
