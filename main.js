@@ -1,5 +1,5 @@
 const lineHeight = 20;
-const minInnerContentWidth = 700;
+const mobileBreakpoint = 780;
 const tabs = ['index.html', 'johan.html', 'fredrik.html', 'pywalfox.html', 'contact.html'];
 const modes = {
   normal: 'NORMAL',
@@ -249,11 +249,27 @@ function resetScrollBlock() {
   scrollBlock.innerText = '0%';
 }
 
+function getScrollableContentElement() {
+  if (window.innerWidth <= mobileBreakpoint) {
+    return window;
+  }
+
+  return main;
+}
+
 function updateScrollBlock() {
-  if (main.scrollTop === 0) {
+  /* Different elements are scrolled based on device and window size.
+   * 'window' does not have the 'scrollTop' and 'scrollHeight' properties, so
+   * we must use 'scrollY' and 'innerHeight' instead.
+   */
+  const element = getScrollableContentElement();
+  const scrollAmount = element.scrollTop !== undefined ? element.scrollTop : element.scrollY;
+  const scrollHeight = element.scrollHeight !== undefined ? element.scrollHeight : element.innerHeight;
+
+  if (scrollAmount === 0) {
     resetScrollBlock();
   } else {
-    scrollBlock.innerText = parseInt(main.scrollTop / (main.scrollHeight - main.clientHeight) * 100)+ '%';
+    scrollBlock.innerText = Math.abs(parseInt(scrollAmount / (scrollHeight - main.clientHeight) * 100)) + '%';
   }
 }
 
@@ -268,7 +284,7 @@ function scrollContent(amount) {
     resetKeyBlock();
   }
 
-  main.scrollBy(0, amount);
+  getScrollableContentElement().scrollBy(0, amount);
 }
 
 function updateKeyBlock(key) {
@@ -410,10 +426,8 @@ window.addEventListener('popstate', (e) => {
   }
 });
 
-main.addEventListener('scroll', () => {
+function handleScrollEvent() {
   // Updates the scroll block when scrolling using both mouse and j/k
-  scrollPosition = window.scrollY;
-
   if (!ticking) {
     window.requestAnimationFrame(() => {
       updateScrollBlock();
@@ -422,6 +436,10 @@ main.addEventListener('scroll', () => {
 
     ticking = true;
   }
-});
+}
+
+// Different elements are being scrolled based on the current device and window size
+window.addEventListener('scroll', handleScrollEvent);
+main.addEventListener('scroll', handleScrollEvent);
 
 initialize();
