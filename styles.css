@@ -10,6 +10,7 @@
   --content-inner-max-width: 670px;
   --gutter-width: 1.5em;
   --scroll-block-width: 2.5em;
+  --list-indent-width: 2em;
   --keybinding-display-width: 8em;
   --list-marker-width: 3em;
   --line-height: 20px;
@@ -22,6 +23,7 @@
 
   --z-index-content: 100;
   --z-index-gutter: 90;
+  --z-index-fixed: 150;
 }
 
 body.default-theme {
@@ -42,6 +44,7 @@ body {
   font-family: var(--font-family);
   font-size: var(--font-size);
   background-image: url('img/wallpaper.jpg');
+  background-color: black;
   background-size: cover;
 }
 
@@ -75,7 +78,7 @@ a, ol, ul, li, p, pre {
 }
 
 ol, ul {
-  padding-left: calc(var(--line-height)*1.5);
+  padding-left: var(--list-indent-width);
   margin-bottom: var(--line-height);
 }
 
@@ -158,9 +161,8 @@ button {
 
 img, video {
   max-width: 100%;
-	min-width: 100%;
   object-fit: contain;
-  height: 100%;
+  height: auto;
   align-self: flex-start;
 }
 
@@ -214,7 +216,7 @@ main {
   flex: 1;
   display: inline-flex;
   overflow-y: scroll;
-  overflow-x: scroll;
+  overflow-x: hidden;
   padding-left: var(--spacing-sm);
   padding-top: calc(var(--line-height)/2);
   box-sizing: border-box;
@@ -274,7 +276,7 @@ footer {
 }
 
 .commands {
-  background-color: transparent;
+  background-color: var(--color-window);
 }
 
 .block {
@@ -341,15 +343,68 @@ input {
 
 @media screen and (max-width: 750px) {
   :root {
-    --content-height: calc(100vh - 0px);
+    --content-height: 100%;
     --content-max-height: unset;
     --content-width: 100%;
     --content-min-width: unset;
     --content-max-width: unset;
+    --content-inner-max-width: 100%;
   }
 
   #window {
     border: 0;
+  }
+
+  main {
+    padding: 0;
+  }
+
+  #content {
+    padding: 0;
+  }
+}
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: 320px),
+only screen and (   min--moz-device-pixel-ratio: 2)      and (min-width: 320px),
+only screen and (     -o-min-device-pixel-ratio: 2/1)    and (min-width: 320px),
+only screen and (        min-device-pixel-ratio: 2)      and (min-width: 320px),
+only screen and (                min-resolution: 192dpi) and (min-width: 320px),
+only screen and (                min-resolution: 2dppx)  and (min-width: 320px) {
+  :root {
+    --content-height: 100%;
+    --content-max-height: unset;
+    --content-width: 100%;
+    --content-min-width: unset;
+    --content-max-width: unset;
+    --content-inner-max-width: 100%;
+  }
+
+  #gutter {
+    display: none;
+  }
+
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: var(--z-index-fixed);
+  }
+
+  footer {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    z-index: var(--z-index-fixed);
+  }
+
+  #window {
+    border: 0;
+  }
+
+  #content {
+    padding: 0;
+    padding-top: var(--bar-height);
   }
 }
 

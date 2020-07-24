@@ -341,7 +341,7 @@ function normalModeKeybindings(key) {
   }
 }
 
-window.addEventListener('keydown', (e) => {
+window.addEventListener('keypress', (e) => {
   const key = e.key;
 
   if (key === 'Escape' || key === 'CapsLock') {
