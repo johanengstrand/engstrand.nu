@@ -1,6 +1,14 @@
-```{.run cmd="toilet -f mono12" in="shell" out="text"}
-pywalfox
-```
+<pre data-type=@ascii>                                                                                
+                                         ▄▄▄▄         ▄▄▄▄                      
+                                         ▀▀██        ██▀▀▀                      
+ ██▄███▄   ▀██  ███ ██      ██  ▄█████▄    ██      ███████    ▄████▄   ▀██  ██▀ 
+ ██▀  ▀██   ██▄ ██  ▀█  ██  █▀  ▀ ▄▄▄██    ██        ██      ██▀  ▀██    ████   
+ ██    ██    ████▀   ██▄██▄██  ▄██▀▀▀██    ██        ██      ██    ██    ▄██▄   
+ ███▄▄██▀     ███    ▀██  ██▀  ██▄▄▄███    ██▄▄▄     ██      ▀██▄▄██▀   ▄█▀▀█▄  
+ ██ ▀▀▀       ██      ▀▀  ▀▀    ▀▀▀▀ ▀▀     ▀▀▀▀     ▀▀        ▀▀▀▀    ▀▀▀  ▀▀▀ 
+ ██         ███                                                                 
+                                                                                
+<pre data-type=@ascii>
 
 <p class="row">
   <a href="https://addons.mozilla.org/en-US/firefox/addon/pywalfox/"><img src="https://img.shields.io/amo/v/pywalfox"></a>
