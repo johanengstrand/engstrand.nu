@@ -136,6 +136,7 @@ h2::after {
 h1::before {
   content: '═════ ';
 }
+
 /* ▬▬ι═══════ﺤ */
 h1::after {
   content: ' ═════';
@@ -159,11 +160,27 @@ button {
   font-size: var(--font-size);
 }
 
+pre {
+  display: flex;
+}
+
 img, video {
   max-width: 100%;
   object-fit: contain;
   height: auto;
   align-self: flex-start;
+}
+
+figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+figcaption {
+  line-height: var(--line-height);
+  text-align: center;
+  font-size: calc(var(--font-size)*0.9);
 }
 
 a > img {
@@ -204,6 +221,7 @@ code > pre {
   justify-content: center;
   align-items: center;
   height: var(--bar-height);
+  font-size: var(--font-size);
 }
 
 .tab-active {
@@ -341,7 +359,7 @@ input {
   color: var(--color-secondary);
 }
 
-.ascii-title {
+*[data-type="@ascii"] {
   color: var(--color-primary);
   display: inline-block; /* Keep the width the same as the width of the text */
 }
@@ -368,8 +386,8 @@ input {
     display: none;
   }
 
-  .ascii-title {
-    font-size: calc(var(--font-size)*0.7)
+  *[data-type="@ascii"] {
+    font-size: calc(var(--font-size)*0.7);
   }
 }
 
@@ -386,11 +404,19 @@ only screen and (                min-resolution: 2dppx)  and (min-width: 320px) 
     --content-width: 100%;
     --content-min-width: unset;
     --content-max-width: unset;
-    --content-inner-max-width: 100%;
+    --line-height: 20px;
+    --content-inner-max-width: calc(100% - var(--gutter-width) - var(--line-height));
   }
 
-  #gutter {
-    display: none;
+  #page-wrapper {
+    /* Expand the content below the viewport on iOS,
+     * causing the tob bar in Safari to collapse when scrolling down.
+     */
+    height: auto;
+  }
+
+  #window {
+    min-height: 100vh;
   }
 
   header {
@@ -411,17 +437,41 @@ only screen and (                min-resolution: 2dppx)  and (min-width: 320px) 
     border: 0;
   }
 
-  #content {
-    padding: 0;
-    padding-top: var(--bar-height);
+  main {
+    padding-top: calc(var(--bar-height) + var(--spacing-sm));
+    margin-bottom: calc(var(--bar-height) * 2 + var(--spacing-sm));
+  }
+}
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2)      and (max-width: 800px),
+only screen and (   min--moz-device-pixel-ratio: 2)      and (max-width: 800px),
+only screen and (     -o-min-device-pixel-ratio: 2/1)    and (max-width: 800px),
+only screen and (        min-device-pixel-ratio: 2)      and (max-width: 800px),
+only screen and (                min-resolution: 192dpi) and (max-width: 800px),
+only screen and (                min-resolution: 2dppx)  and (max-width: 800px) {
+  .tab > span {
+    display: none;
+  }
+}
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2)      and (max-width: 650px),
+only screen and (   min--moz-device-pixel-ratio: 2)      and (max-width: 650px),
+only screen and (     -o-min-device-pixel-ratio: 2/1)    and (max-width: 650px),
+only screen and (        min-device-pixel-ratio: 2)      and (max-width: 650px),
+only screen and (                min-resolution: 192dpi) and (max-width: 650px),
+only screen and (                min-resolution: 2dppx)  and (max-width: 650px) {
+  #gutter {
+    display: none;
   }
 
   .tab > span {
     display: none;
   }
 
-  .ascii-title {
-    font-size: calc(var(--font-size)*0.7)
+  *[data-type="@ascii"] {
+    font-size: calc(var(--font-size)*0.7);
   }
 }
 
