@@ -112,7 +112,7 @@ function updateMediaHeight(element) {
     }
 
     if (parentElement.tagName === 'P') {
-      parentElement.style.height = newHeightPx;
+      parentElement.style.lineHeight = '0px';
     }
 
     element.style.height = newHeightPx;
