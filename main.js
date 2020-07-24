@@ -1,4 +1,5 @@
 const lineHeight = 20;
+const minInnerContentWidth = 700;
 const tabs = ['index.html', 'johan.html', 'fredrik.html', 'pywalfox.html', 'contact.html'];
 const modes = {
   normal: 'NORMAL',
@@ -23,6 +24,18 @@ var selectedTabElement = null;
 var tabElements = [];
 var scrollPosition;
 var ticking = false;
+
+// https://remysharp.com/2010/07/21/throttling-function-calls
+function debounce(fn, delay) {
+  var timer = null;
+  return function () {
+    var context = this, args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      fn.apply(context, args);
+    }, delay);
+  };
+}
 
 function generateTabs() {
   tabs.forEach((tab, index) => {
@@ -70,7 +83,7 @@ function openContentPage(path) {
       content.innerHTML = html;
       updateSelectedTab();
       updateFilenameBlock();
-      generateLineNumbers(); // Generate temporary line numbers
+      updateLineNumbers(); // Generate temporary line numbers
       resetScrollBlock();
       waitForMediaToLoad();
     })
@@ -88,27 +101,21 @@ function adjustLineOverflow(elementHeight, callback) {
   }
 }
 
-function updateContentScrollHeight() {
-  // Images and other content may not be an exact multiple of lineHeight
-  // and will cause the scroll block to not go to exactly 100%.
-  adjustLineOverflow(main.scrollHeight, (remainder) => {
-    const element = document.createElement('div');
-    element.style.height = (lineHeight - remainder) + 'px';
-    gutter.appendChild(element);
-  });
-}
-
 function updateMediaHeight(element) {
   adjustLineOverflow(element.clientHeight, (remainder) => {
-    const originalWidth = element.clientWidth + 'px';
-    const newHeight = (element.clientHeight - remainder) + 'px';
     const parentElement = element.parentElement;
+    var newHeight = (element.clientHeight - remainder);
+    var newHeightPx = newHeight + 'px';
 
-    if (parentElement.tagName === 'P') {
-      parentElement.style.height = newHeight;
+    if (newHeight < lineHeight) {
+      newHeightPx = lineHeight + 'px';
     }
 
-    element.style.height = newHeight;
+    if (parentElement.tagName === 'P') {
+      parentElement.style.height = newHeightPx;
+    }
+
+    element.style.height = newHeightPx;
   });
 }
 
@@ -132,18 +139,22 @@ function calculateRealContentHeight() {
   return Array.from(content.children).reduce((total, child) => total + outerHeight(child), 0);
 }
 
-function generateLineNumbers() {
-  // Reset the gutter
+function createLineNumberElement(number) {
+  const element = document.createElement('div');
+  element.innerText = number;
+  element.classList.add('line-number');
+
+  return element;
+}
+
+function updateLineNumbers() {
   gutter.innerHTML = '';
 
   const contentHeight = calculateRealContentHeight();
   const amount = Math.ceil(contentHeight / lineHeight);
 
   for (var i = 1; i <= amount; i++) {
-    const element = document.createElement('div');
-    element.innerText = i;
-    element.classList.add('line-number');
-    gutter.appendChild(element);
+    gutter.appendChild(createLineNumberElement(i));
   }
 }
 
@@ -166,8 +177,7 @@ function waitForMediaToLoad() {
 
   Promise.all(listeners)
     .then(() => {
-      generateLineNumbers();
-      updateContentScrollHeight();
+      updateLineNumbers();
     });
 }
 
@@ -360,6 +370,43 @@ window.addEventListener('keypress', (e) => {
   }
 });
 
+window.addEventListener('resize', debounce(() => {
+  /* Media height is calculated on load and if you resize the window,
+   * the media will shrink (because of the object-fit: contain property)
+   * but the reserved space will not, causing huge amounts of whitespace.
+   *
+   * Therefore, we must recalculate the height to match the line height
+   * when the user resizes the window.
+   */
+  const media = document.querySelectorAll('img, video');
+  media.forEach((element) => {
+    element.parentElement.style.height = null;
+    element.style.height = null;
+    updateMediaHeight(element)
+  });
+
+  updateLineNumbers();
+}, 250));
+
+window.addEventListener('popstate', (e) => {
+  var tabId = e.state.tabId;
+
+  /* Try to fetch the target tabId from history state first.
+   * If it does not exists, try getting an index from the pathname.
+   * If no tab id can be found, display the index page
+   */
+  if (tabId) {
+    goToTab(tabId, false);
+  } else {
+    tabId = getCurrentTabId();
+    if (tabId !== -1) {
+      goToTab(tabId, false);
+    } else {
+      goToTab(1, false);
+    }
+  }
+});
+
 main.addEventListener('scroll', () => {
   // Updates the scroll block when scrolling using both mouse and j/k
   scrollPosition = window.scrollY;
@@ -371,24 +418,6 @@ main.addEventListener('scroll', () => {
     });
 
     ticking = true;
-  }
-});
-
-window.addEventListener('popstate', (e) => {
-  var tabId = e.state.tabId;
-
-  // Try to fetch the target tabId from history state first.
-  // If it does not exists, try getting an index from the pathname.
-  // If no tab id can be found, display the index page
-  if (tabId) {
-    goToTab(tabId, false);
-  } else {
-    tabId = getCurrentTabId();
-    if (tabId !== -1) {
-      goToTab(tabId, false);
-    } else {
-      goToTab(1, false);
-    }
   }
 });
 
