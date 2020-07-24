@@ -1,13 +1,6 @@
-<pre class="color-primary">
-                                         ▄▄▄▄         ▄▄▄▄
-                                         ▀▀██        ██▀▀▀
- ██▄███▄   ▀██  ███ ██      ██  ▄█████▄    ██      ███████    ▄████▄   ▀██  ██▀
- ██▀  ▀██   ██▄ ██  ▀█  ██  █▀  ▀ ▄▄▄██    ██        ██      ██▀  ▀██    ████
- ██    ██    ████▀   ██▄██▄██  ▄██▀▀▀██    ██        ██      ██    ██    ▄██▄
- ███▄▄██▀     ███    ▀██  ██▀  ██▄▄▄███    ██▄▄▄     ██      ▀██▄▄██▀   ▄█▀▀█▄
- ██ ▀▀▀       ██      ▀▀  ▀▀    ▀▀▀▀ ▀▀     ▀▀▀▀     ▀▀        ▀▀▀▀    ▀▀▀  ▀▀▀
- ██         ███
-</pre>
+```{.run cmd="toilet -f mono12" in="shell" out="text"}
+pywalfox
+```
 <p class="row">
   <a href="https://addons.mozilla.org/en-US/firefox/addon/pywalfox/"><img src="https://img.shields.io/amo/v/pywalfox"></a>
   <a href="https://addons.mozilla.org/en-US/firefox/addon/pywalfox/"><img src="https://img.shields.io/amo/stars/pywalfox"></a>
