@@ -22,7 +22,6 @@ var currentTab = null;
 var previousTab = null;
 var selectedTabElement = null;
 var tabElements = [];
-var scrollPosition;
 var ticking = false;
 
 // https://remysharp.com/2010/07/21/throttling-function-calls
@@ -223,6 +222,7 @@ function updateMode(mode) {
   } else {
     commandInput.disabled = false;
     commandInput.focus();
+    commandInput.value = ':';
   }
 }
 
@@ -247,10 +247,12 @@ function scrollContentToBottom() {
 
 function resetScrollBlock() {
   scrollBlock.innerText = '0%';
+  getScrollableContentElement().scrollTo(0, 0);
 }
 
 function getScrollableContentElement() {
-  if (window.innerWidth <= mobileBreakpoint) {
+  // TODO: Add condition for 'window.innerWidth' when 'devicePixelRatio' is 2
+  if (window.innerWidth <= mobileBreakpoint || window.devicePixelRatio === 2) {
     return window;
   }
 
@@ -284,6 +286,7 @@ function scrollContent(amount) {
     resetKeyBlock();
   }
 
+  window.scrollBy(0, amount);
   getScrollableContentElement().scrollBy(0, amount);
 }
 
@@ -377,7 +380,19 @@ function normalModeKeybindings(key) {
   }
 }
 
-window.addEventListener('keypress', (e) => {
+function handleScrollEvent() {
+  // Updates the scroll block when scrolling using both mouse and j/k
+  if (!ticking) {
+    window.requestAnimationFrame(() => {
+      updateScrollBlock();
+      ticking = false;
+    });
+
+    ticking = true;
+  }
+}
+
+document.addEventListener('keydown', (e) => {
   const key = e.key;
 
   if (key === 'Escape' || key === 'CapsLock') {
@@ -425,18 +440,6 @@ window.addEventListener('popstate', (e) => {
     }
   }
 });
-
-function handleScrollEvent() {
-  // Updates the scroll block when scrolling using both mouse and j/k
-  if (!ticking) {
-    window.requestAnimationFrame(() => {
-      updateScrollBlock();
-      ticking = false;
-    });
-
-    ticking = true;
-  }
-}
 
 // Different elements are being scrolled based on the current device and window size
 window.addEventListener('scroll', handleScrollEvent);
