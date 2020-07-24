@@ -3,6 +3,6 @@
 for f in *.md
 do
   FILENAME="${f%%.md}"
-  pandoc -f gfm $f -o ../content/$FILENAME.html
+  pandoc -i $f --filter pandoc-run-filter -o ../content/$FILENAME.html
 done
 
