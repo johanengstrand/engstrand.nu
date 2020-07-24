@@ -27,10 +27,17 @@ var ticking = false;
 function generateTabs() {
   tabs.forEach((tab, index) => {
     const tabId = index + 1;
-    const element = document.createElement('button');
+    const extensionStartIndex = tab.indexOf('.');
+    const tabName = tab.substr(0, extensionStartIndex);
+    const tabExtension = tab.substr(extensionStartIndex);
 
+    const element = document.createElement('button');
+    const htmlTagSpan = document.createElement('span');
+
+    element.innerText = tabId + ' ' + tabName;
     element.classList.add('tab');
-    element.innerText = tabId + ' ' + tab;
+    htmlTagSpan.innerText = tabExtension;
+    element.appendChild(htmlTagSpan);
     element.addEventListener('click', () => goToTab(tabId));
 
     tabbar.appendChild(element);

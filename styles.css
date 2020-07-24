@@ -360,7 +360,11 @@ input {
   }
 
   #content {
-    padding: 0;
+    padding: 0 var(--spacing-xsm);
+  }
+
+  .tab > span {
+    display: none;
   }
 }
 
@@ -405,6 +409,10 @@ only screen and (                min-resolution: 2dppx)  and (min-width: 320px) 
   #content {
     padding: 0;
     padding-top: var(--bar-height);
+  }
+
+  .tab > span {
+    display: none;
   }
 }
 
