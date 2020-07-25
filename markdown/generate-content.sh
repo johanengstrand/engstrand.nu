@@ -1,5 +1,9 @@
 #!/bin/sh
 
+script_path=$(cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P)
+
+cd "$script_path"
+
 for f in *.md
 do
   FILENAME="${f%%.md}"
