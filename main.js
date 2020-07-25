@@ -1,10 +1,7 @@
 const lineHeight = 20;
 const mobileBreakpoint = 780;
-const tabs = ['index.html', 'johan.html', 'fredrik.html', 'pywalfox.html', 'contact.html'];
-const modes = {
-  normal: 'NORMAL',
-  command: 'COMMAND',
-};
+const tabs = [ 'index.html', 'johan.html', 'fredrik.html', 'pywalfox.html', 'contact.html' ];
+const modes = { normal: 'NORMAL', command: 'COMMAND' };
 
 const tabbar = document.getElementById('tabbar');
 const main = document.getElementById('content-wrapper');
@@ -21,7 +18,7 @@ var keypresses = '';
 var currentTab = null;
 var previousTab = null;
 var selectedTabElement = null;
-var tabElements = [];
+var tabElements = {};
 var ticking = false;
 
 // https://remysharp.com/2010/07/21/throttling-function-calls
@@ -42,11 +39,9 @@ function generateTabs() {
     const extensionStartIndex = tab.indexOf('.');
     const tabName = tab.substr(0, extensionStartIndex);
     const tabExtension = tab.substr(extensionStartIndex);
-
     const element = document.createElement('button');
-    const tabData = [tabId, tabName, tabExtension];
 
-    tabData.forEach((data) => {
+    [tabId, tabName, tabExtension].forEach((data) => {
       const span = document.createElement('span');
       span.innerText = data;
       element.appendChild(span);
@@ -56,12 +51,14 @@ function generateTabs() {
     element.addEventListener('click', () => goToTab(tabId));
 
     tabbar.appendChild(element);
-    tabElements.push(element);
+
+    // Add to list for faster access when switching tabs
+    tabElements[tabId] = element;
   });
 }
 
 function updateSelectedTab() {
-  const selectedTab = tabElements[currentTab-1];
+  const selectedTab = tabElements[currentTab];
 
   if (!selectedTab) {
     return;
@@ -84,10 +81,10 @@ function openContentPage(path) {
     .then((html) => {
       content.innerHTML = html;
       updateSelectedTab();
-      updateFilenameBlock();
       updateLineNumbers(); // Generate temporary line numbers
-      resetScrollBlock();
       waitForMediaToLoad();
+      updateFilenameBlock();
+      scrollContentToTop();
     })
     .catch((error) => {
       console.error(error);
@@ -106,18 +103,18 @@ function adjustLineOverflow(elementHeight, callback) {
 function updateMediaHeight(element) {
   adjustLineOverflow(element.clientHeight, (remainder) => {
     const parentElement = element.parentElement;
-    var newHeight = (element.clientHeight - remainder);
-    var newHeightPx = newHeight + 'px';
+    var newHeight = element.clientHeight - remainder;
 
     if (newHeight < lineHeight) {
-      newHeightPx = lineHeight + 'px';
+      newHeight = lineHeight;
     }
 
     if (parentElement.tagName === 'P') {
+      // Fixes an issue where the p-tag would be a few pixels taller than the actual image
       parentElement.style.lineHeight = '0px';
     }
 
-    element.style.height = newHeightPx;
+    element.style.height = newHeight + 'px';
   });
 }
 
@@ -167,42 +164,33 @@ function waitForMediaToLoad() {
   var listeners = [];
 
   // Create a list of promises
-  for (const element of media) {
-    listeners.push(new Promise((resolve, _) => {
+  media.forEach((element) => {
+    const promise = new Promise((resolve, reject) => {
       const listenEvent = element.tagName === 'VIDEO' ? 'loadedmetadata' : 'load';
+      element.addEventListener('error', resolve); // we do not actually care about the error
       element.addEventListener(listenEvent, () => {
         updateMediaHeight(element);
         resolve();
       });
-    }));
-  }
-
-  Promise.all(listeners)
-    .then(() => {
-      updateLineNumbers();
     });
+
+    listeners.push(promise);
+  });
+
+  Promise.all(listeners).then(updateLineNumbers);
 }
 
-function getCurrentTabId() {
-  const path = window.location.pathname
-  const filename = path.substring(path.lastIndexOf('/') + 1);
-  const tabIndex = tabs.indexOf(filename);
+function getCurrentTabIdFromPathname() {
+  const path = window.location.pathname;
+  const tabIndex = tabs.indexOf(path.substring(path.lastIndexOf('/') + 1));
 
-  if (tabIndex >= 0) {
-    return tabIndex + 1;
-  }
-
-  return -1;
+  return tabIndex >= 0 ? (tabIndex + 1) : -1;
 }
 
 function initialize() {
-  const tabId = getCurrentTabId();
-  if (tabId !== -1) {
-    goToTab(tabId);
-  } else {
-    goToTab(1);
-  }
+  const tabId = getCurrentTabIdFromPathname();
 
+  tabId !== -1 ? goToTab(tabId) : goToTab(1);
   generateTabs();
   updateMode(modes.normal);
 }
@@ -238,16 +226,18 @@ function resetKeyBlock() {
 }
 
 function scrollContentToTop() {
-  main.scrollTo(0, 0);
+  getScrollableContentElement().scrollTo(0, 0);
 }
 
 function scrollContentToBottom() {
-  main.scrollTo(0, main.scrollHeight);
+  /* We can use 'main.scrollHeight' since that element contains all the content
+   * on both mobile and desktop.
+   */
+  getScrollableContentElement().scrollTo(0, main.scrollHeight);
 }
 
 function resetScrollBlock() {
   scrollBlock.innerText = '0%';
-  getScrollableContentElement().scrollTo(0, 0);
 }
 
 function getScrollableContentElement() {
@@ -432,7 +422,7 @@ window.addEventListener('popstate', (e) => {
   if (tabId) {
     goToTab(tabId, false);
   } else {
-    tabId = getCurrentTabId();
+    tabId = getCurrentTabIdFromPathname();
     if (tabId !== -1) {
       goToTab(tabId, false);
     } else {
