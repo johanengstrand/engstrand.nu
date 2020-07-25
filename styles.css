@@ -30,13 +30,13 @@
   --z-index-gutter: 90;
   --z-index-fixed: 150;
 
-  --color-window: rgba(18, 18, 16, 0.91);
-  --color-background-light: #2f3332;
-  --color-line-number: #7b7b7b;
+  --color-background-light: rgba(255, 255, 255, 0.15);
+  --color-line-number: rgba(255, 255, 255, 0.5);
 }
 
 body.default-theme {
   --wallpaper: url('img/wallpaper.jpg');
+  --color-window: rgba(18, 18, 16, 0.91);
   --color-primary: #fecfc7;
   --color-secondary: #445d86;
   --color-default-text: #ffffff;
