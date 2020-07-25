@@ -228,6 +228,12 @@ figcaption {
   font-size: var(--font-size-90);
 }
 
+svg {
+  height: var(--line-height);
+  width: var(--line-height);
+  fill: var(--color-default-text);
+}
+
 blockquote {
   margin: 0;
   margin-top: var(--line-height);
