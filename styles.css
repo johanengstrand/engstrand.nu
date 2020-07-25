@@ -126,6 +126,12 @@ a {
   color: var(--color-primary);
 }
 
+a:hover, a:focus {
+  background-color: var(--color-primary);
+  color: var(--color-accent-text);
+  font-weight: normal;
+}
+
 a > img {
   max-width: 100%;
 }

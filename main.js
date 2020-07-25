@@ -218,7 +218,6 @@ function updateMode(mode) {
   } else {
     commandInput.disabled = false;
     commandInput.focus();
-    commandInput.value = ':';
   }
 }
 
