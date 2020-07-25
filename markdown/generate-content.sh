@@ -9,12 +9,11 @@ template_tag() {
 <template \
 data-wallpaper=\"url('../img/$1')\" \
 data-color-window=\"$(sed '1q;d' $2)EE\" \
-data-color-primary=\"$(sed '2q;d' $2)\" \
+data-color-primary=\"$(sed '4q;d' $2)\" \
 data-color-secondary=\"$(sed '3q;d' $2)\" \
-data-color-accent-text=\"$(sed '5q;d' $2)\" \
-data-color-light-text=\"$(sed '6q;d' $2)\" \
-data-color-secondary-text=\"$(sed '7q;d' $2)\" \
-data-color-border=\"$(sed '8q;d' $2)\" \
+data-color-accent-text=\"$(sed '7q;d' $2)\" \
+data-color-secondary-text=\"$(sed '9q;d' $2)\" \
+data-color-border=\"$(sed '2q;d' $2)\" \
 > \
 </template>
 "
@@ -33,11 +32,12 @@ do
 
   if [[ -n "$WALLPAPER" ]]; then
     if [ -f "../img/$WALLPAPER" ]; then
-      wal -n -s -t -e --saturate 0.25 -i ../img/$WALLPAPER > /dev/null
+      wal -n -s -t -c -l -e --saturate 0.25 -i ../img/$WALLPAPER > /dev/null
       BLOCK=$(template_tag $WALLPAPER $WAL_COLORS)
       sed -ri "s|^(\@wallpaper) (.*)|$BLOCK|" /tmp/current.md
     else
       echo "$WALLPAPER not found in image folder ($f)"
+      sed -ri "s/^(\@wallpaper) (.*)//" /tmp/current.md
     fi
   else
     echo "No wallpaper set for $FILENAME, using default"
