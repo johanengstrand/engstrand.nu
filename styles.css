@@ -353,6 +353,7 @@ footer {
   height: auto;
   display: flex;
   flex-direction: column;
+  background-color: var(--color-window);
 }
 
 #commands {
