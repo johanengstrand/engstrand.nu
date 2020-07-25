@@ -1,3 +1,5 @@
+@wallpaper wallpaper2.jpg
+
 # Welcome!
 
 ## This is our site

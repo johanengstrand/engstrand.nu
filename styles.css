@@ -33,6 +33,8 @@
   --color-background-light: rgba(255, 255, 255, 0.15);
   --color-line-number: rgba(255, 255, 255, 0.5);
   --color-default-text: #ffffff;
+  --color-default-dark-text: #131313;
+  --color-content-text: rgba(255, 255, 255, 0.9);
 }
 
 body.default-theme {
@@ -41,7 +43,6 @@ body.default-theme {
   --color-primary: #fecfc7;
   --color-secondary: #445d86;
   --color-accent-text: #333;
-  --color-light-text: #e8e8e8;
   --color-secondary-text: #7493ff;
   --color-border: #f0d1ce;
 }
@@ -93,9 +94,9 @@ li::marker {
   color: var(--color-secondary-text);
 }
 
-p, pre, textarea, button, ol, ul, table {
+p, pre, textarea, ol, ul, table {
   margin-top: var(--line-height);
-  color: var(--color-light-text);
+  color: var(--color-content-text);
 }
 
 table {
@@ -129,7 +130,7 @@ a {
 
 a:hover, a:focus {
   background-color: var(--color-primary);
-  color: var(--color-window);
+  color: var(--color-default-dark-text);
   font-weight: normal;
 }
 
@@ -280,6 +281,7 @@ code > pre {
   height: var(--bar-height);
   font-size: var(--font-size);
   margin: 0;
+  color: var(--color-default-text);
 }
 
 .tab > span:first-of-type {
@@ -291,7 +293,7 @@ code > pre {
 }
 
 .tab-active, .block-primary, .block-secondary, th {
-  color: var(--color-window);
+  color: var(--color-default-dark-text);
 }
 
 main {
