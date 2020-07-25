@@ -321,8 +321,12 @@ main::-webkit-scrollbar {
   box-sizing: border-box;
 }
 
-#content:first-child {
+#content > *:first-child {
   margin-top: 0;
+}
+
+#content > *:last-child {
+  margin-bottom: var(--line-height);
 }
 
 footer {
@@ -431,7 +435,7 @@ only screen and (                min-resolution: 2dppx)  and (min-width: 320px) 
   main {
     padding: 0;
     padding-top: calc(var(--bar-height) + var(--spacing-sm));
-    padding-bottom: calc(var(--bar-height) * 2 + var(--spacing-sm));
+    padding-bottom: calc(var(--bar-height) * 2);
   }
 
   #content {

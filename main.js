@@ -409,6 +409,7 @@ window.addEventListener('resize', debounce(() => {
     updateMediaHeight(element)
   });
 
+  // TODO: When resizing and switching between mobile/desktop layouts, the scroll position is reset
   updateLineNumbers();
 }, 250));
 
