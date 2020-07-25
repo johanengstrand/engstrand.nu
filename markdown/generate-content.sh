@@ -16,7 +16,8 @@ data-color-accent-text=\"$(sed '5q;d' $2)\" \
 data-color-light-text=\"$(sed '6q;d' $2)\" \
 data-color-secondary-text=\"$(sed '7q;d' $2)\" \
 data-color-border=\"$(sed '8q;d' $2)\" \
-/> \
+> \
+</template>
 "
   }
 
