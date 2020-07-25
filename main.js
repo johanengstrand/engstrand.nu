@@ -340,7 +340,11 @@ function goToTab(tab, saveHistory=true) {
 function commandModeKeybindings(key) {
   switch (key) {
     case 'Enter':
-      commandInput.value !== '' && commandInput.value !== ':' && executeCommand();
+      if (commandInput.value === '' || commandInput.value === ':') {
+        updateMode(modes.normal);
+      } else {
+        executeCommand();
+      }
       break;
   }
 }
