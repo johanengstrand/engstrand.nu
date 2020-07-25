@@ -1,8 +1,5 @@
 # Welcome!
 
-@fa github
-This is a label to an icon
-
 ## This is our site
 [title](https://engstrand.nu)
 This is some stuff you can do on our site
