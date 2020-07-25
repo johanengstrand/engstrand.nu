@@ -232,6 +232,7 @@ svg {
   height: var(--line-height);
   width: var(--line-height);
   fill: var(--color-default-text);
+  vertical-align: middle;
 }
 
 blockquote {
