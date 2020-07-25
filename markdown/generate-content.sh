@@ -5,15 +5,31 @@ script_path=$(cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P)
 WAL_COLORS=~/.cache/wal/colors
 
 template_tag() {
+  # TODO: Add support for '-l' flag in pywal and darken/lighten colors accordingly
+  primary=$(sed '4q;d' $2)
+  secondary=$(sed '3q;d' $2)
+  background=$(sed '1q;d' $2)
+
+  accent_text=$(pastel textcolor "$primary" | pastel format hex)
+  default_text=$(pastel textcolor "$background" | pastel format hex)
+  secondary_text=$(pastel lighten 0.2 "$secondary" | pastel format hex)
+  content_text=$(pastel darken 0.1 "$default_text" | pastel format hex)
+  line_number=$(pastel darken 0.35 "$default_text" | pastel format hex)
+  background_light=$(pastel lighten 0.1 "$background" | pastel format hex)
+
   echo "\
 <template \
 data-wallpaper=\"url('../img/$1')\" \
-data-color-window=\"$(sed '1q;d' $2)EE\" \
-data-color-primary=\"$(sed '4q;d' $2)\" \
-data-color-secondary=\"$(sed '3q;d' $2)\" \
-data-color-accent-text=\"$(sed '7q;d' $2)\" \
-data-color-secondary-text=\"$(sed '9q;d' $2)\" \
-data-color-border=\"$(sed '2q;d' $2)\" \
+data-color-border=\"$secondary\" \
+data-color-background=\"${background}EE\" \
+data-color-background-light=\"$background_light\" \
+data-color-primary=\"$primary\" \
+data-color-secondary=\"$secondary\" \
+data-color-default-text=\"$default_text\" \
+data-color-accent-text=\"$accent_text\" \
+data-color-secondary-text=\"$secondary_text\" \
+data-color-content-text=\"$content_text\" \
+data-color-line-number=\"$line_number\" \
 > \
 </template>
 "
@@ -32,7 +48,8 @@ do
 
   if [[ -n "$WALLPAPER" ]]; then
     if [ -f "../img/$WALLPAPER" ]; then
-      wal -n -s -t -c -l -e --saturate 0.25 -i ../img/$WALLPAPER > /dev/null
+      wal -c # remove all cached colors
+      wal -n -s -t -e --saturate 0.4 -i ../img/$WALLPAPER > /dev/null
       BLOCK=$(template_tag $WALLPAPER $WAL_COLORS)
       sed -ri "s|^(\@wallpaper) (.*)|$BLOCK|" /tmp/current.md
     else

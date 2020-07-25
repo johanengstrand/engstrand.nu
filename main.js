@@ -4,14 +4,16 @@ const modes = { normal: 'NORMAL', command: 'COMMAND' };
 const tabs = [ 'index.html', 'johan.html', 'fredrik.html', 'pywalfox.html', 'contact.html' ];
 const themeData = [
   { variable: '--wallpaper', attribute: 'data-wallpaper' },
-  { variable: '--color-window', attribute: 'data-color-window' },
+  { variable: '--color-border', attribute: 'data-color-border' },
+  { variable: '--color-background', attribute: 'data-color-background' },
+  { variable: '--color-background-light', attribute: 'data-color-background-light' },
   { variable: '--color-primary', attribute: 'data-color-primary' },
   { variable: '--color-secondary', attribute: 'data-color-secondary' },
   { variable: '--color-default-text', attribute: 'data-color-default-text' },
   { variable: '--color-accent-text', attribute: 'data-color-accent-text' },
-  { variable: '--color-light-text', attribute: 'data-color-light-text' },
   { variable: '--color-secondary-text', attribute: 'data-color-secondary-text' },
-  { variable: '--color-border', attribute: 'data-color-border' },
+  { variable: '--color-content-text', attribute: 'data-color-content-text' },
+  { variable: '--color-line-number', attribute: 'data-color-line-number' },
 ];
 
 const tabbar = document.getElementById('tabbar');
