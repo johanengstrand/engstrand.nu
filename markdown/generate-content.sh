@@ -11,7 +11,6 @@ data-wallpaper=\"url('../img/$1')\" \
 data-color-window=\"$(sed '1q;d' $2)EE\" \
 data-color-primary=\"$(sed '2q;d' $2)\" \
 data-color-secondary=\"$(sed '3q;d' $2)\" \
-data-color-default-text=\"$(sed '4q;d' $2)\" \
 data-color-accent-text=\"$(sed '5q;d' $2)\" \
 data-color-light-text=\"$(sed '6q;d' $2)\" \
 data-color-secondary-text=\"$(sed '7q;d' $2)\" \
@@ -34,7 +33,7 @@ do
 
   if [[ -n "$WALLPAPER" ]]; then
     if [ -f "../img/$WALLPAPER" ]; then
-      wal -n -s -t -e -i ../img/$WALLPAPER > /dev/null
+      wal -n -s -t -e --saturate 0.25 -i ../img/$WALLPAPER > /dev/null
       BLOCK=$(template_tag $WALLPAPER $WAL_COLORS)
       sed -ri "s|^(\@wallpaper) (.*)|$BLOCK|" /tmp/current.md
     else
