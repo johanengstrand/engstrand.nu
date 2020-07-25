@@ -1,3 +1,5 @@
+@wallpaper nope.jpg
+
 # PAGE TITLE
 
 ## Second level heading

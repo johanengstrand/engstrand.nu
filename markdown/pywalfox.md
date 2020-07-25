@@ -1,5 +1,5 @@
 @ascii pywalfox
-
+@wallpaper wallpaper.jpg
 > **Dynamic theming of Firefox (and Thunderbird) using your Pywal colors**
 
 <p class="row">
