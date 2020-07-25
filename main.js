@@ -80,10 +80,11 @@ function openContentPage(path) {
     })
     .then((html) => {
       content.innerHTML = html;
+      waitForMediaToLoad();
       updateSelectedTab();
       updateLineNumbers(); // Generate temporary line numbers
-      waitForMediaToLoad();
       updateFilenameBlock();
+      applyLineHeightFixes();
       scrollContentToTop();
     })
     .catch((error) => {
@@ -100,20 +101,27 @@ function adjustLineOverflow(elementHeight, callback) {
   }
 }
 
+function applyLineHeightFixes() {
+  // Applies the line height fix to all other required elements except 'img' and 'video'
+  document.querySelectorAll('svg').forEach((element) => applyLineHeightFix(element.parentElement));
+}
+
+function applyLineHeightFix(parentElement) {
+  if (parentElement.tagName === 'P') {
+    // Fixes an issue where the p-tag would be a few pixels taller than the actual content
+    parentElement.style.lineHeight = '0px';
+  }
+}
+
 function updateMediaHeight(element) {
   adjustLineOverflow(element.clientHeight, (remainder) => {
-    const parentElement = element.parentElement;
     var newHeight = element.clientHeight - remainder;
 
     if (newHeight < lineHeight) {
       newHeight = lineHeight;
     }
 
-    if (parentElement.tagName === 'P') {
-      // Fixes an issue where the p-tag would be a few pixels taller than the actual image
-      parentElement.style.lineHeight = '0px';
-    }
-
+    applyLineHeightFix(element.parentElement);
     element.style.height = newHeight + 'px';
   });
 }
