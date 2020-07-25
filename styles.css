@@ -29,20 +29,21 @@
   --z-index-content: 100;
   --z-index-gutter: 90;
   --z-index-fixed: 150;
+
+  --color-window: rgba(18, 18, 16, 0.91);
+  --color-background-light: #2f3332;
+  --color-line-number: #7b7b7b;
 }
 
 body.default-theme {
   --wallpaper: url('img/wallpaper.jpg');
   --color-primary: #fecfc7;
   --color-secondary: #445d86;
-  --color-background-light: #2f3332;
   --color-default-text: #ffffff;
   --color-accent-text: #333;
   --color-light-text: #e8e8e8;
   --color-secondary-text: #7493ff;
-  --color-line-number: #7b7b7b;
   --color-border: #f0d1ce;
-  --color-window: rgba(18, 18, 16, 0.91);
 }
 
 body {

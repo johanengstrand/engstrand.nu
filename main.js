@@ -1,6 +1,16 @@
 const lineHeight = 20;
 const mobileBreakpoint = 780;
 const tabs = [ 'index.html', 'johan.html', 'fredrik.html', 'pywalfox.html', 'contact.html' ];
+const themeData = [
+  { variable: '--wallpaper', attribute: 'data-wallpaper' },
+  { variable: '--color-primary', attribute: 'data-color-primary' },
+  { variable: '--color-secondary', attribute: 'data-color-secondary' },
+  { variable: '--color-default-text', attribute: 'data-color-default-text' },
+  { variable: '--color-accent-text', attribute: 'data-color-accent-text' },
+  { variable: '--color-light-text', attribute: 'data-color-light-text' },
+  { variable: '--color-secondary-text', attribute: 'data-color-secondary-text' },
+  { variable: '--color-border', attribute: 'data-color-border' },
+];
 const modes = { normal: 'NORMAL', command: 'COMMAND' };
 
 const tabbar = document.getElementById('tabbar');
@@ -72,6 +82,20 @@ function updateSelectedTab() {
   selectedTabElement = selectedTab;
 }
 
+function updateColorVariables() {
+  const template = content.querySelector('template');
+
+  if (template) {
+    document.body.classList.remove('default-theme');
+    themeData.forEach((obj) => {
+      document.body.style.setProperty(obj.variable, template.getAttribute(obj.attribute));
+    });
+  } else {
+    document.body.classList.add('default-theme');
+    document.body.style = null;
+  }
+}
+
 function openContentPage(path) {
   // Fetches an html file and inserts the content into the page
   fetch('content/' + path)
@@ -80,6 +104,7 @@ function openContentPage(path) {
     })
     .then((html) => {
       content.innerHTML = html;
+      updateColorVariables();
       waitForMediaToLoad();
       updateSelectedTab();
       updateLineNumbers(); // Generate temporary line numbers
