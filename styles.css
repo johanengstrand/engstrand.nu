@@ -32,6 +32,7 @@
 
   --color-background-light: rgba(255, 255, 255, 0.15);
   --color-line-number: rgba(255, 255, 255, 0.5);
+  --color-default-text: #ffffff;
 }
 
 body.default-theme {
@@ -39,7 +40,6 @@ body.default-theme {
   --color-window: rgba(18, 18, 16, 0.91);
   --color-primary: #fecfc7;
   --color-secondary: #445d86;
-  --color-default-text: #ffffff;
   --color-accent-text: #333;
   --color-light-text: #e8e8e8;
   --color-secondary-text: #7493ff;
@@ -129,7 +129,7 @@ a {
 
 a:hover, a:focus {
   background-color: var(--color-primary);
-  color: var(--color-accent-text);
+  color: var(--color-window);
   font-weight: normal;
 }
 
@@ -288,7 +288,10 @@ code > pre {
 
 .tab-active {
   background-color: var(--color-primary);
-  color: var(--color-accent-text);
+}
+
+.tab-active, .block-primary, .block-secondary, th {
+  color: var(--color-window);
 }
 
 main {
@@ -393,7 +396,6 @@ footer {
 
 .block-primary {
   background-color: var(--color-primary);
-  color: var(--color-accent-text);
 }
 
 .block-secondary {
