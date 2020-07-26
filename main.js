@@ -149,7 +149,10 @@ function updateMediaHeight(element) {
       newHeight = lineHeight;
     }
 
-    applyLineHeightFix(element.parentElement);
+    if (element.parentElement.innerText === '') {
+      applyLineHeightFix(element.parentElement);
+    }
+
     element.style.height = newHeight + 'px';
   });
 }
