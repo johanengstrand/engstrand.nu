@@ -267,7 +267,8 @@ code > pre {
 }
 
 .bar {
-  display: inline-flex;
+  display: flex;
+  flex-direction: row;
   align-items: center;
   height: var(--bar-height);
   width: 100%;
@@ -421,6 +422,10 @@ pre[data-type="@ascii"] > h1 {
   display: none;
 }
 
+.line-height-fix, .temporary-line-height-fix {
+  line-height: 0px;
+}
+
 @media
 only screen and (max-width: 780px),
 only screen and (-webkit-min-device-pixel-ratio: 2)      and (min-width: 320px),
@@ -506,6 +511,12 @@ only screen and (                min-resolution: 2dppx)  and (max-width: 800px) 
   img, video {
     width: 100%;
     object-fit: cover;
+  }
+
+  .temporary-line-height-fix {
+    display: flex;
+    flex-direction: column;
+    line-height: var(--line-height);
   }
 }
 

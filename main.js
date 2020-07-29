@@ -141,16 +141,26 @@ function applyLineHeightFix(parentElement) {
   }
 }
 
+function applyLineHeightFix(parentElement, className='line-height-fix') {
+  if (parentElement.tagName === 'P') {
+    // Fixes an issue where the p-tag would be a few pixels taller than the actual content
+    parentElement.classList.add(className);
+  }
+}
+
 function updateMediaHeight(element) {
   adjustLineOverflow(element.clientHeight, (remainder) => {
+    const parentElement = element.parentElement;
     var newHeight = element.clientHeight - remainder;
 
     if (newHeight < lineHeight) {
       newHeight = lineHeight;
     }
 
-    if (element.parentElement.innerText === '') {
-      applyLineHeightFix(element.parentElement);
+    if (parentElement.innerText.length > 0) {
+      applyLineHeightFix(parentElement, 'temporary-line-height-fix');
+    } else {
+      applyLineHeightFix(parentElement);
     }
 
     element.style.height = newHeight + 'px';
