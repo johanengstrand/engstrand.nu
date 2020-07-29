@@ -5,8 +5,11 @@
     <title>Engstrand.nu | @title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="assets/styles.css" type="text/css">
+    <style>
+      @theme
+    </style>
   </head>
-  <body class="default-theme">
+  <body>
     <div id="page-wrapper">
       <div id="window">
         <header class="bar" id="tabbar">
@@ -20,7 +23,9 @@
         </main>
         <footer>
           <section class="bar">
-            <div class="block block-primary" id="mode"></div>
+            <div class="block block-primary" id="mode">
+              NORMAL
+            </div>
             <div class="block" id="file">
               @title
             </div>

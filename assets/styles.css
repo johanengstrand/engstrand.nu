@@ -31,24 +31,6 @@
   --z-index-fixed: 150;
 }
 
-body.default-theme {
-  --wallpaper: url('img/wallpaper.jpg');
-
-  --color-border: #f0d1ce;
-  --color-background: rgba(18, 18, 16, 0.91);
-  --color-background-light: rgba(255, 255, 255, 0.15);
-
-  --color-primary: #fecfc7;
-  --color-secondary: #445d86;
-
-  --color-default-text: #ffffff;
-  --color-accent-text: #333333;
-  --color-secondary-text: #7493ff;
-  --color-content-text: #eeeeee;
-
-  --color-line-number: #8c8c8c;
-}
-
 body {
   margin: 0;
   min-width: var(--body-min-width);
@@ -57,6 +39,19 @@ body {
   background-image: var(--wallpaper);
   background-color: var(--color-background);
   background-size: cover;
+
+  /* default theme */
+  --wallpaper: url('img/wallpaper.jpg');
+  --color-border: #f0d1ce;
+  --color-background: rgba(18, 18, 16, 0.91);
+  --color-background-light: rgba(255, 255, 255, 0.15);
+  --color-primary: #fecfc7;
+  --color-secondary: #445d86;
+  --color-default-text: #ffffff;
+  --color-accent-text: #333333;
+  --color-secondary-text: #7493ff;
+  --color-content-text: #eeeeee;
+  --color-line-number: #8c8c8c;
 }
 
 #page-wrapper {
