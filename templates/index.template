@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Engstrand.nu | @title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="assets/styles.css" type="text/css">
+  </head>
+  <body class="default-theme">
+    <div id="page-wrapper">
+      <div id="window">
+        <header class="bar" id="tabbar">
+          @navigation
+        </header>
+        <main id="content-wrapper">
+          <aside id="gutter"></aside>
+          <section id="content">
+            @content
+          </section>
+        </main>
+        <footer>
+          <section class="bar">
+            <div class="block block-primary" id="mode"></div>
+            <div class="block" id="file">
+              @title
+            </div>
+            <div class="block expand align-right" id="info">
+              engstrand.nu | utf-8 | html
+            </div>
+            <div class="block block-secondary align-right" id="scroll">
+              0%
+            </div>
+            <div class="block block-primary align-right" id="position">
+              0:0
+            </div>
+          </section>
+          <section class="bar" id="commands">
+            <input id="command-input" class="expand" />
+            <p id="keybinding-display"></p>
+          </section>
+        </footer>
+      </div>
+    </div>
+    <script src="assets/main.js" type="text/javascript"></script>
+  </body>
+</html>

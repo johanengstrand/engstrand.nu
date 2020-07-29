@@ -24,4 +24,4 @@ Hey guys here's more information
 - Third item
 
 Here's a real cool guy
-![Fredrik](../img/7253137.jpg)
+![Fredrik](../assets/img/7253137.jpg)
