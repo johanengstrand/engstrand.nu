@@ -1,7 +1,5 @@
 #!/bin/sh
 
-script_path=$(cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P)
-
 WAL_COLORS=~/.cache/wal/colors
 
 template_tag() {
@@ -35,7 +33,7 @@ data-color-line-number=\"$line_number\" \
 "
   }
 
-cd "$script_path"
+cd markdown/
 
 for f in *.md
 do
@@ -60,7 +58,17 @@ do
     echo "No wallpaper set for $FILENAME, using default"
   fi
 
-  pandoc -i /tmp/current.md -f gfm -o ../$FILENAME.html
+  pandoc -i /tmp/current.md -f gfm -t html -o /tmp/current.html
+
+  cp ../templates/index.template ../$FILENAME.html
+
+  sed -i '/\@content/{
+    s/\@content//g
+    r /tmp/current.html
+  }' ../$FILENAME.html
+
+  sed -i "s/\@title/$FILENAME.html/g" ../$FILENAME.html
 done
 
 rm /tmp/current.md
+rm /tmp/current.html
