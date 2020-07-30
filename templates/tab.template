@@ -1,5 +1,0 @@
-<a href="@title" class="tab" data-id="@id">
-  <span>@id</span>
-  <span>@name</span>
-  <span>.html</span>
-</a>

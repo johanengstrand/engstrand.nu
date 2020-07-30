@@ -50,8 +50,17 @@ function adjustLineOverflow(elementHeight, callback) {
   }
 }
 
-function applyLineHeightFix(parentElement, className='line-height-fix') {
-  if (parentElement.tagName === 'P') {
+function applyLineHeightFix(parentElement) {
+  if (
+    parentElement.tagName === 'P' &&
+    !parentElement.classList.contains('line-height-fix') &&
+    !parentElement.classList.contains('temporary-line-height-fix')
+  ) {
+    var className = 'line-height-fix';
+    if (parentElement.innerText.length > 0) {
+      className = 'temporary-line-height-fix';
+    }
+
     // Fixes an issue where the p-tag would be a few pixels taller than the actual content
     parentElement.classList.add(className);
   }
@@ -62,7 +71,7 @@ function updateMediaHeight(element) {
     const parentElement = element.parentElement;
     const adjustedHeight = Math.max(lineHeight, element.clientHeight - remainder);
 
-    applyLineHeightFix(parentElement, parentElement.innerText.length > 0 ? 'temporary-line-height-fix' : null);
+    applyLineHeightFix(parentElement);
     element.style.height = `${adjustedHeight}px`;
   });
 }
@@ -106,6 +115,11 @@ function waitForMediaToLoad() {
 
   // Create a list of promises
   media.forEach((element) => {
+    if (element.complete) {
+      updateMediaHeight(element);
+      return;
+    }
+
     const promise = new Promise((resolve, _) => {
       const listenEvent = element.tagName === 'VIDEO' ? 'loadedmetadata' : 'load';
       element.addEventListener('error', resolve); // we do not actually care about the error
@@ -136,7 +150,7 @@ function updateMode(mode) {
 }
 
 function goToTab(tabId) {
-  const tab = document.querySelector(`.tab[data-id=${tabId}]`);
+  const tab = document.querySelector(`.tab[data-id="${tabId}"]`);
 
   if (!tab) {
     console.error(`Could not find tab with id: ${tabId}`);
@@ -296,6 +310,8 @@ function handleScrollEvent() {
 }
 
 function initialize() {
+  waitForMediaToLoad();
+  updateLineNumbers();
   updateMode(modes.normal);
 }
 
@@ -318,7 +334,7 @@ window.addEventListener('resize', debounce(() => {
 
   // TODO: When resizing and switching between mobile/desktop layouts, the scroll position is reset
   updateLineNumbers();
-}, 250));
+}, 500));
 
 document.addEventListener('keydown', (e) => {
   const key = e.key;

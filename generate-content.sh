@@ -16,20 +16,43 @@ generate_theme_css() {
   background_light=$(pastel lighten 0.1 "$background" | pastel format hex)
 
   echo "\
-body { \
---wallpaper: url('../assets/img/$1'); \
---color-border: $secondary; \
---color-background: ${background}EE; \
---color-background-light: $background_light; \
---color-primary: $primary; \
---color-secondary: $secondary; \
---color-default-text: $default_text; \
---color-accent-text: $accent_text; \
---color-secondary-text: $secondary_text; \
---color-content-text: $content_text; \
---color-line-number: $line_number; \
-} \
-  "
+body {\
+--wallpaper: url('../assets/img/$1');\
+--color-border: $secondary;\
+--color-background: ${background}EE;\
+--color-background-light: $background_light;\
+--color-primary: $primary;\
+--color-secondary: $secondary;\
+--color-default-text: $default_text;\
+--color-accent-text: $accent_text;\
+--color-secondary-text: $secondary_text;\
+--color-content-text: $content_text;\
+--color-line-number: $line_number;\
+}\
+"
+}
+
+generate_navigation() {
+  [ -f /tmp/navigation.html ] && rm /tmp/navigation.html
+  INDEX=1
+
+  for t in *.md
+  do
+    TAB="${t%%.md}"
+
+    ID="2"
+    [ "$TAB" = "$1" ] && CLASSES="tab tab-active" || CLASSES="tab"
+
+    echo "\
+<a href=\"$TAB.html\" class=\"$CLASSES\" data-id=\"$INDEX\">\
+<span>$INDEX</span>\
+<span>$TAB</span>\
+<span>.html</span>\
+</a>\
+" >> /tmp/navigation.html
+
+    let "INDEX++"
+  done
 }
 
 cd markdown/
@@ -72,7 +95,15 @@ do
     RULES=$(generate_theme_css $WALLPAPER $WAL_COLORS)
     sed -i "s|\@theme|$RULES|" ../$FILENAME.html
   fi
+
+  generate_navigation $FILENAME
+
+  sed -i '/\@navigation/{
+    s/\@navigation//
+    r /tmp/navigation.html
+  }' ../$FILENAME.html
 done
 
 rm /tmp/current.md
 rm /tmp/current.html
+rm /tmp/navigation.html

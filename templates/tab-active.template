@@ -1,5 +1,0 @@
-<a href="@href" class="tab active" data-id="@id">
-  <span>@id</span>
-  <span>@title</span>
-  <span>.html</span>
-</a>
