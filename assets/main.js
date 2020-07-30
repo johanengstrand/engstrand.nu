@@ -40,42 +40,6 @@ function isNumber(keys) {
   return !Object.is(parseInt(keys), NaN);
 }
 
-function adjustLineOverflow(elementHeight, callback) {
-  // If adjustment is needed to align with the lines,
-  // send the amount in pixels to callback for adjustment
-  const remainder = elementHeight % lineHeight;
-
-  if (remainder !== 0) {
-    callback(remainder);
-  }
-}
-
-function applyLineHeightFix(parentElement) {
-  if (
-    parentElement.tagName === 'P' &&
-    !parentElement.classList.contains('line-height-fix') &&
-    !parentElement.classList.contains('temporary-line-height-fix')
-  ) {
-    var className = 'line-height-fix';
-    if (parentElement.innerText.length > 0) {
-      className = 'temporary-line-height-fix';
-    }
-
-    // Fixes an issue where the p-tag would be a few pixels taller than the actual content
-    parentElement.classList.add(className);
-  }
-}
-
-function updateMediaHeight(element) {
-  adjustLineOverflow(element.clientHeight, (remainder) => {
-    const parentElement = element.parentElement;
-    const adjustedHeight = Math.max(lineHeight, element.clientHeight - remainder);
-
-    applyLineHeightFix(parentElement);
-    element.style.height = `${adjustedHeight}px`;
-  });
-}
-
 function calculateRealContentHeight() {
   // If the content overflows, we can simply return the scrollHeight, since that is real content height
   if (content.scrollHeight > content.clientHeight) {
@@ -115,18 +79,10 @@ function waitForMediaToLoad() {
 
   // Create a list of promises
   media.forEach((element) => {
-    if (element.complete) {
-      updateMediaHeight(element);
-      return;
-    }
-
     const promise = new Promise((resolve, _) => {
       const listenEvent = element.tagName === 'VIDEO' ? 'loadedmetadata' : 'load';
       element.addEventListener('error', resolve); // we do not actually care about the error
-      element.addEventListener(listenEvent, () => {
-        updateMediaHeight(element);
-        resolve();
-      });
+      element.addEventListener(listenEvent, resolve);
     });
 
     listeners.push(promise);
@@ -320,18 +276,6 @@ window.addEventListener('scroll', handleScrollEvent);
 main.addEventListener('scroll', handleScrollEvent);
 
 window.addEventListener('resize', debounce(() => {
-  /* Media height is calculated on load and if you resize the window,
-   * the media will shrink (because of the object-fit: contain property)
-   * but the reserved space will not, causing huge amounts of whitespace.
-   *
-   * Therefore, we must recalculate the height to match the line height
-   * when the user resizes the window.
-   */
-  const media = document.querySelectorAll('img, video');
-  media.forEach((element) => {
-    updateMediaHeight(element)
-  });
-
   // TODO: When resizing and switching between mobile/desktop layouts, the scroll position is reset
   updateLineNumbers();
 }, 500));

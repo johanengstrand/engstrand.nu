@@ -46,7 +46,7 @@ body {
   --color-background: rgba(18, 18, 16, 0.91);
   --color-background-light: rgba(255, 255, 255, 0.15);
   --color-primary: #fecfc7;
-  --color-secondary: #445d86;
+  --color-secondary: #69a1fd;
   --color-default-text: #ffffff;
   --color-accent-text: #333333;
   --color-secondary-text: #7493ff;
@@ -81,6 +81,16 @@ a, ol, ul, li, p, pre, td, th, h1, h2, h3, h4, h5 {
   line-height: var(--line-height);
   font-size: var(--font-size);
   margin: 0;
+}
+
+p {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+p > strong, p > a, p > em, p > i, p > pre {
+  padding: 0 var(--spacing-xsm);
 }
 
 ol, ul {
@@ -132,7 +142,7 @@ a:hover, a:focus {
 }
 
 a > img {
-  max-width: 100%;
+  height: auto;
 }
 
 h1, h2, h3, h4, h5 {
@@ -212,8 +222,9 @@ pre {
 
 img, video {
   max-width: 100%;
+  height: 460px;
+  width: auto;
   object-fit: cover;
-  height: auto;
   align-self: flex-start;
 }
 
@@ -395,6 +406,7 @@ footer {
 
 .row > a {
   margin-right: var(--line-height-sm);
+  padding: 0;
 }
 
 .block-primary {
@@ -417,10 +429,6 @@ pre[data-type="@ascii"] > pre {
 
 pre[data-type="@ascii"] > h1 {
   display: none;
-}
-
-.line-height-fix, .temporary-line-height-fix {
-  line-height: 0px;
 }
 
 @media
@@ -504,17 +512,6 @@ only screen and (                min-resolution: 2dppx)  and (max-width: 800px) 
   .tab > span:last-of-type {
     display: none;
   }
-
-  img, video {
-    width: 100%;
-    object-fit: cover;
-  }
-
-  .temporary-line-height-fix {
-    display: flex;
-    flex-direction: column;
-    line-height: var(--line-height);
-  }
 }
 
 @media
@@ -532,6 +529,11 @@ only screen and (                min-resolution: 2dppx)  and (max-width: 700px) 
   h1 {
     text-align: center;
     width: 100%;
+  }
+
+  img, video {
+    width: 100%;
+    height: auto;
   }
 
   #gutter, #info,

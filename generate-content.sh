@@ -34,24 +34,29 @@ body {\
 
 generate_navigation() {
   [ -f /tmp/navigation.html ] && rm /tmp/navigation.html
-  INDEX=1
+  INDEX=2
 
   for t in *.md
   do
     TAB="${t%%.md}"
 
-    ID="2"
+    # reserve tab id 1 for index.html
+    ID=$INDEX
+    if [ "$TAB" = "index" ]; then
+      ID=1
+    else
+      let "INDEX++"
+    fi
+
     [ "$TAB" = "$1" ] && CLASSES="tab tab-active" || CLASSES="tab"
 
     echo "\
-<a href=\"$TAB.html\" class=\"$CLASSES\" data-id=\"$INDEX\">\
-<span>$INDEX</span>\
+<a href=\"$TAB.html\" class=\"$CLASSES\" data-id=\"$ID\">\
+<span>$ID</span>\
 <span>$TAB</span>\
 <span>.html</span>\
 </a>\
 " >> /tmp/navigation.html
-
-    let "INDEX++"
   done
 }
 
