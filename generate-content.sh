@@ -2,7 +2,7 @@
 
 WAL_COLORS=~/.cache/wal/colors
 
-template_tag() {
+generate_theme_css() {
   # TODO: Add support for '-l' flag in pywal and darken/lighten colors accordingly
   primary=$(sed '4q;d' $2)
   secondary=$(sed '3q;d' $2)
@@ -16,43 +16,43 @@ template_tag() {
   background_light=$(pastel lighten 0.1 "$background" | pastel format hex)
 
   echo "\
-<template \
-data-wallpaper=\"url('../img/$1')\" \
-data-color-border=\"$secondary\" \
-data-color-background=\"${background}EE\" \
-data-color-background-light=\"$background_light\" \
-data-color-primary=\"$primary\" \
-data-color-secondary=\"$secondary\" \
-data-color-default-text=\"$default_text\" \
-data-color-accent-text=\"$accent_text\" \
-data-color-secondary-text=\"$secondary_text\" \
-data-color-content-text=\"$content_text\" \
-data-color-line-number=\"$line_number\" \
-> \
-</template>
-"
-  }
+body { \
+--wallpaper: url('../assets/img/$1'); \
+--color-border: $secondary; \
+--color-background: ${background}EE; \
+--color-background-light: $background_light; \
+--color-primary: $primary; \
+--color-secondary: $secondary; \
+--color-default-text: $default_text; \
+--color-accent-text: $accent_text; \
+--color-secondary-text: $secondary_text; \
+--color-content-text: $content_text; \
+--color-line-number: $line_number; \
+} \
+  "
+}
 
 cd markdown/
 
 for f in *.md
 do
   FILENAME="${f%%.md}"
-  cp $f /tmp/current.md
-
-  sed -ri 's/^(\@ascii) (.*)/echo "<pre data-type=\\"\1\\">"; echo "<pre>"; toilet -f mono12 \2; echo "<\/pre>"; echo "<h1>\2<\/h1>"; echo "<\/pre>"/e' /tmp/current.md
-  sed -ri 's/^(\@icon) (.*)/cat ..\/assets\/font-awesome\/svgs\/\2.svg/e' /tmp/current.md
   WALLPAPER=$(grep "@wallpaper" $f | cut -d\  -f2)
 
+  cp $f /tmp/current.md
+  cp ../templates/index.template ../$FILENAME.html
+
+  # markdown filters
+  sed -ri 's/^(\@ascii) (.*)/echo "<pre data-type=\\"\1\\">"; echo "<pre>"; toilet -f mono12 \2; echo "<\/pre>"; echo "<h1>\2<\/h1>"; echo "<\/pre>"/e' /tmp/current.md
+  sed -ri 's/^(\@icon) (.*)/cat ..\/assets\/font-awesome\/svgs\/\2.svg/e' /tmp/current.md
+
   if [[ -n "$WALLPAPER" ]]; then
+    sed -ri "s/^(\@wallpaper) (.*)//" /tmp/current.md # remove keyword
     if [ -f "../assets/img/$WALLPAPER" ]; then
       wal -c # remove all cached colors
       wal -n -s -t -e --saturate 0.4 -i ../assets/img/$WALLPAPER > /dev/null
-      BLOCK=$(template_tag $WALLPAPER $WAL_COLORS)
-      sed -ri "s|^(\@wallpaper) (.*)|$BLOCK|" /tmp/current.md
     else
       echo "$WALLPAPER not found in image folder ($f)"
-      sed -ri "s/^(\@wallpaper) (.*)//" /tmp/current.md
     fi
   else
     echo "No wallpaper set for $FILENAME, using default"
@@ -60,14 +60,18 @@ do
 
   pandoc -i /tmp/current.md -f gfm -t html -o /tmp/current.html
 
-  cp ../templates/index.template ../$FILENAME.html
-
+  # html filters
+  sed -i "s/\@title/$FILENAME.html/g" ../$FILENAME.html
   sed -i '/\@content/{
-    s/\@content//g
+    s/\@content//
     r /tmp/current.html
   }' ../$FILENAME.html
 
-  sed -i "s/\@title/$FILENAME.html/g" ../$FILENAME.html
+  if [ ! -z "$WALLPAPER" ]; then
+    echo "Generating theme for $FILENAME"
+    RULES=$(generate_theme_css $WALLPAPER $WAL_COLORS)
+    sed -i "s|\@theme|$RULES|" ../$FILENAME.html
+  fi
 done
 
 rm /tmp/current.md

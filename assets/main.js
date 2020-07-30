@@ -334,6 +334,7 @@ document.addEventListener('keydown', (e) => {
     default:
       currentMode === modes.normal ? normalModeKeybindings(key) : commandModeKeybindings(key);
       break;
+  }
 });
 
 initialize();
