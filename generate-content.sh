@@ -13,50 +13,51 @@ generate_theme_css() {
   secondary_text=$(pastel lighten 0.2 "$secondary" | pastel format hex)
   content_text=$(pastel darken 0.1 "$default_text" | pastel format hex)
   line_number=$(pastel darken 0.35 "$default_text" | pastel format hex)
-  background_light=$(pastel lighten 0.1 "$background" | pastel format hex)
+  background_light=$(pastel lighten 0.15 "$background" | pastel format hex)
 
   echo "\
-body {\
---wallpaper: url('../assets/img/$1');\
---color-border: $secondary;\
---color-background: ${background}EE;\
---color-background-light: $background_light;\
---color-primary: $primary;\
---color-secondary: $secondary;\
---color-default-text: $default_text;\
---color-accent-text: $accent_text;\
---color-secondary-text: $secondary_text;\
---color-content-text: $content_text;\
---color-line-number: $line_number;\
-}\
-"
+    body {\
+      --wallpaper: url('../assets/img/$1');\
+      --color-border: $secondary;\
+      --color-background: ${background}EE;\
+      --color-background-light: $background_light;\
+      --color-primary: $primary;\
+      --color-secondary: $secondary;\
+      --color-default-text: $default_text;\
+      --color-accent-text: $accent_text;\
+      --color-secondary-text: $secondary_text;\
+      --color-content-text: $content_text;\
+      --color-line-number: $line_number;\
+    }\
+  "
+}
+
+append_tab() {
+  [ "$1" = "$2" ] && CLASSES="tab tab-active" || CLASSES="tab"
+
+  echo "\
+    <a href=\"$1.html\" class=\"$CLASSES\" data-id=\"$3\">\
+      <span>$3</span>\
+      <span>$1</span>\
+      <span>.html</span>\
+    </a>\
+  " >> /tmp/navigation.html
 }
 
 generate_navigation() {
   [ -f /tmp/navigation.html ] && rm /tmp/navigation.html
   INDEX=2
 
+  append_tab "index" "$1" 1 # first, append the index tab
+
   for t in *.md
   do
     TAB="${t%%.md}"
-
-    # reserve tab id 1 for index.html
-    ID=$INDEX
-    if [ "$TAB" = "index" ]; then
-      ID=1
-    else
+    if [ ! "$TAB" = "index" ]; then
+      # reserve tab id 1 for index.html
+      append_tab $TAB $1 $INDEX
       let "INDEX++"
     fi
-
-    [ "$TAB" = "$1" ] && CLASSES="tab tab-active" || CLASSES="tab"
-
-    echo "\
-<a href=\"$TAB.html\" class=\"$CLASSES\" data-id=\"$ID\">\
-<span>$ID</span>\
-<span>$TAB</span>\
-<span>.html</span>\
-</a>\
-" >> /tmp/navigation.html
   done
 }
 

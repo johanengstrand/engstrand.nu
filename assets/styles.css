@@ -93,6 +93,14 @@ p > strong, p > a, p > em, p > i, p > pre {
   padding: 0 var(--spacing-xsm);
 }
 
+p > a:first-child,
+p > em:first-child,
+p > i:first-child,
+p > pre:first-child,
+p > strong:first-child {
+  padding-left: 0;
+}
+
 ol, ul {
   padding-left: var(--list-indent-width);
 }
