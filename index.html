@@ -10,6 +10,31 @@
     </style>
   </head>
   <body>
+    <noscript>
+      <style>
+        #gutter {
+          display: none;
+        }
+
+        #commands::before {
+          content: 'Vim keys and some other cool stuff will not work without javascript';
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          background-color: transparent;
+          color: var(--color-line-number);
+          width: 100%;
+          height: var(--bar-height);
+          top: 0;
+          left: 0;
+          position: absolute;
+          font-size: var(--font-size-md);
+          flex-direction: row;
+          padding-left: var(--spacing-sm);
+          z-index: 2;
+        }
+      </style>
+    </noscript>
     <div id="page-wrapper">
       <div id="window">
         <header class="bar" id="tabbar">

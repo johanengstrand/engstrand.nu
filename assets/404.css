@@ -1,0 +1,53 @@
+body {
+  background-color: black;
+  color: white;
+  margin: 1em;
+  font-size: 0.9rem;
+  font-family: monospace;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.container {
+  overflow: hidden;
+  width: 100%;
+}
+
+pre {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+b {
+  color: #ff4747;
+}
+
+a {
+  color: #3eff77;
+  font-weight: bold;
+  padding: 0.2em 0.4em;
+  display: inline-flex;
+  align-items: center;
+  font-size: 1rem;
+}
+
+a:focus, a:hover {
+  background-color: #3eff77;
+  color: black;
+  font-weight: normal;
+}
+
+@media only screen and (max-width: 750px) {
+  pre span {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  body {
+    margin: 0.4em;
+  }
+}

@@ -4,9 +4,36 @@
     <meta charset="utf-8">
     <title>Engstrand.nu | Page not found</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="assets/styles.css" type="text/css">
+    <link rel="stylesheet" href="assets/404.css" type="text/css">
   </head>
   <body>
-    <p>hello</p>
+    <div class="container">
+      <pre>
+<span>[ 1561.519943] </span>[Request Error]: CPU 4: Machine Check Exception: 5 Bank 3: be00000000800400
+<span>[ 1561.519946] </span>[Request Error]: RIP !INEXACT! 33:<00007fe99ae93e54>
+<span>[ 1561.519948] </span>[Request Error]: TSC 539b174dead ADDR 3fe98d264ebd MISC 1
+<span>[ 1561.519950] </span>[Request Error]: PROCESSOR 0:206a7 TIME 1357862746 SOCKET 0 APIC 1 microcode 28
+<span>[ 1561.519953] </span>[Request Error]: CPU 0: Machine Check Exception: 4 Bank 3: be00000000800400
+<span>[ 1561.519955] </span>[Request Error]: TSC 539b174de9d ADDR 3fe98d264ebd MISC 1
+<span>[ 1561.519957] </span>[Request Error]: PROCESSOR 0:206a7 TIME 1357862746 SOCKET 0 APIC 0 microcode 28
+<span>[ 1561.519959] </span>[Request Error]: Request check: Pathname invalid
+<span>[ 1561.519960] </span>Kernel panic - invalid path: Fatal Server check
+<b><span>[ 1561.519962] </span>[Request Error]: 404: Page not found</b>
+
+<span>[ 1561.519963]  </span>Call Trace:
+<span>[ 1561.519964]  </span>&lt;#MC&gt;  [&lt;ffffffff81644340&gt;] panic+0x91/0x1a4
+<span>[ 1561.519971]  </span>[&lt;ffffffff8102abeb&gt;] mce_panic.part.14+0x18b/0x1c0
+<span>[ 1561.519973]  </span>[&lt;ffffffff8102ac80&gt;] mce_panic+0x60/0xb0
+<span>[ 1561.519975]  </span>[&lt;ffffffff8102aec4&gt;] mce_reign+0x1f4/0x200
+<span>[ 1561.519977]  </span>[&lt;ffffffff8102b175&gt;] mce_end+0xf5/0x100
+<span>[ 1561.519979]  </span>[&lt;ffffffff8102b92c&gt;] do_request_check+0x3fc/0x600
+<span>[ 1561.519982]  </span>[&lt;ffffffff8136d48f&gt;] ? server_idle+0xbf/0x150
+<span>[ 1561.519984]  </span>[&lt;ffffffff8165d78c&gt;] request_check+0x1c/0x30
+<span>[ 1561.519986]  </span>[&lt;ffffffff8136d48f&gt;] ? server_idle+0xbf/0x150
+<span>[ 1561.519991]  </span>[&lt;ffffffff815082d1&gt;] create_404_error+0xc1/0x280
+<span>[ 1561.519994]  </span>[&lt;ffffffff8101322a&gt;] server_idle+0xca/0x120
+      </pre>
+      <a href="/">Go back</a>
+    </div>
   </body>
 </html>
