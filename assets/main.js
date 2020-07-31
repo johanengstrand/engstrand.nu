@@ -64,7 +64,7 @@ function updateLineNumbers() {
   gutter.innerHTML = '';
 
   const contentHeight = calculateRealContentHeight();
-  const amount = Math.ceil(contentHeight / lineHeight);
+  const amount = Math.floor(contentHeight / lineHeight);
 
   for (var i = 1; i <= amount; i++) {
     gutter.appendChild(createLineNumberElement(i));
@@ -266,14 +266,13 @@ function handleScrollEvent() {
 }
 
 function initialize() {
-  waitForMediaToLoad();
   updateLineNumbers();
   updateMode(modes.normal);
 }
 
 // Different elements are being scrolled based on the current device and window size
-window.addEventListener('scroll', handleScrollEvent);
 main.addEventListener('scroll', handleScrollEvent);
+window.addEventListener('scroll', handleScrollEvent);
 
 window.addEventListener('resize', debounce(() => {
   // TODO: When resizing and switching between mobile/desktop layouts, the scroll position is reset
@@ -297,4 +296,6 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-initialize();
+window.addEventListener('load', initialize);
+
+updateLineNumbers(); // add temporary line numbers
