@@ -89,7 +89,7 @@ a, ol, ul, li, p, pre, td, th, h1, h2, h3, h4, h5 {
 }
 
 p {
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   flex-wrap: wrap;
   column-gap: calc(var(--font-size)*0.5);
@@ -253,6 +253,11 @@ svg {
   height: calc(var(--line-height)*0.8);
   width: calc(var(--line-height)*0.8);
   fill: var(--color-default-text);
+  margin-top: calc(var(--line-height)*0.1);
+}
+
+li > svg {
+  margin-top: 0;
   vertical-align: middle;
 }
 
